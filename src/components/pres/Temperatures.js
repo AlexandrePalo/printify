@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
+import TextField from '@material-ui/core/TextField'
+import InputLabel from '@material-ui/core/InputLabel'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Input from '@material-ui/core/Input'
 
 const styles = {
   card: {
@@ -28,6 +32,151 @@ const styles = {
 }
 
 class Temperatures extends Component {
+  state = {
+    bed: {
+      current: 40,
+      target: 60,
+      nextTarget: null,
+      set: false
+    },
+    extruder: {
+      current: 198,
+      target: 200,
+      nextTarget: null,
+      set: false
+    }
+  }
+
+  renderTemperatureTarget(probe) {
+    let target = this.state[probe].target
+      ? this.state[probe].target
+      : this.state[probe].current
+    if (this.state[probe].set) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            height: 30
+          }}
+        >
+          <form
+            onSubmit={() =>
+              this.setState({
+                [probe]: {
+                  ...this.state[probe],
+                  set: false,
+                  target
+                }
+              })
+            }
+          >
+            <FormControl>
+              <Input
+                id="bedTarget"
+                label="target"
+                onChange={e => {
+                  target = e.target.value
+                }}
+                type="number"
+                defaultValue={target}
+                endAdornment={
+                  <InputAdornment position="end">°C</InputAdornment>
+                }
+                style={{ width: 70, fontSize: 14 }}
+              />
+            </FormControl>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              type="button"
+              onClick={() => {
+                this.setState({
+                  [probe]: {
+                    ...this.state[probe],
+                    set: false,
+                    target
+                  }
+                })
+              }}
+            >
+              <Icon style={{ fontSize: 16 }}>done</Icon>
+            </IconButton>
+          </form>
+        </div>
+      )
+    } else {
+      if (this.state[probe].target) {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 30
+            }}
+          >
+            <Icon style={{ fontSize: 16 }}>flash_on</Icon>
+            <Typography variant="body1" color="textSecondary">
+              {this.state[probe].target} °C
+            </Typography>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() =>
+                this.setState({
+                  [probe]: {
+                    ...this.state[probe],
+                    set: true
+                  }
+                })
+              }
+            >
+              <Icon style={{ fontSize: 16 }}>edit</Icon>
+            </IconButton>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() => {
+                this.setState({
+                  [probe]: {
+                    ...this.state[probe],
+                    target: null
+                  }
+                })
+              }}
+            >
+              <Icon style={{ fontSize: 16 }}>clear</Icon>
+            </IconButton>
+          </div>
+        )
+      } else {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 30
+            }}
+          >
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() =>
+                this.setState({
+                  [probe]: {
+                    ...this.state[probe],
+                    set: true
+                  }
+                })
+              }
+            >
+              <Icon style={{ fontSize: 16 }}>edit</Icon>
+            </IconButton>
+          </div>
+        )
+      }
+    }
+  }
+
   renderContent() {
     return (
       <Fragment>
@@ -53,22 +202,9 @@ class Temperatures extends Component {
               Extruder
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              198°C
+              {this.state.extruder.current} °C
             </Typography>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}
-            >
-              <Icon>flash_on</Icon>
-              <Typography variant="body1" color="textSecondary">
-                205°C
-              </Typography>
-              <Icon>edit</Icon>
-              <Icon>clear</Icon>
-            </div>
+            {this.renderTemperatureTarget('extruder')}
           </div>
           <div
             style={{
@@ -84,22 +220,9 @@ class Temperatures extends Component {
               Bed
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              46°C
+              {this.state.bed.current} °C
             </Typography>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center'
-              }}
-            >
-              <Icon>flash_on</Icon>
-              <Typography variant="body1" color="textSecondary">
-                60°C
-              </Typography>
-              <Icon>edit</Icon>
-              <Icon>clear</Icon>
-            </div>
+            {this.renderTemperatureTarget('bed')}
           </div>
         </div>
       </Fragment>
@@ -107,7 +230,21 @@ class Temperatures extends Component {
   }
 
   renderActions() {
-    return <Button size="small">Stop</Button>
+    if (this.state.bed.target || this.state.extruder.target) {
+      return (
+        <Button
+          size="small"
+          onClick={() =>
+            this.setState({
+              bed: { ...this.state.bed, target: null },
+              extruder: { ...this.state.extruder, target: null }
+            })
+          }
+        >
+          Stop
+        </Button>
+      )
+    }
   }
 
   render() {

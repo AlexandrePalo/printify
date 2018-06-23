@@ -39,4 +39,5 @@
   display: flex;
   min-width: 700px;
   justify-content: space-between;
+  align-items: flex-start;
 }
