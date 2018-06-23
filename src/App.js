@@ -3,13 +3,17 @@ import logo from './logo.svg'
 import './App.css'
 import Header from './components/pres/Header'
 import State from './components/pres/State'
+import Temperatures from './components/pres/Temperatures'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Header />
-        <State connected />
+        <div className="Content">
+          <State connected />
+          <Temperatures />
+        </div>
       </div>
     )
   }
