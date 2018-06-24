@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+// TODO: externalize connect, props
+
 const styles = {
   card: {
     display: 'flex',
@@ -60,14 +62,25 @@ const styles = {
 
 class State extends Component {
   state = {
-    printer: 'Prusa MK2S',
-    baudrate: 124000
+    port: 0,
+    baudRate: 124000,
+    connected: false,
+    connecting: false
   }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
+
+  connect() {
+    this.setState({ connected: true })
+  }
+  disconnect() {
+    this.setState({ connected: false })
+  }
+
   renderContent() {
-    const { connected } = this.props
+    const { connected } = this.state
     if (connected) {
       return (
         <Fragment>
@@ -88,10 +101,10 @@ class State extends Component {
               }}
             >
               <Typography variant="body1" color="textSecondary">
-                Port serie 0
+                Port serie {this.state.port}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                Baud rate 200000 bits/s
+                Baud rate {this.state.baudRate} bits/s
               </Typography>
             </div>
             <Typography variant="body1" color="textSecondary">
@@ -101,15 +114,66 @@ class State extends Component {
         </Fragment>
       )
     } else {
-      return <Fragment />
+      if (this.state.connecting) {
+        // loading
+      } else {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flex: 1
+            }}
+          >
+            <FormControl>
+              <InputLabel htmlFor="port">Port</InputLabel>
+              <Select
+                value={this.state.port}
+                onChange={this.handleChange}
+                inputProps={{
+                  name: 'port',
+                  id: 'port'
+                }}
+              >
+                <MenuItem value={0}>serie 0</MenuItem>
+                <MenuItem value={1}>serie 1</MenuItem>
+                <MenuItem value={2}>serie 2</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="port">Baud rate</InputLabel>
+              <Select
+                value={this.state.baudRate}
+                onChange={this.handleChange}
+                inputProps={{
+                  name: 'baudRate',
+                  id: 'baudRate'
+                }}
+              >
+                <MenuItem value={124000}>124000</MenuItem>
+                <MenuItem value={172000}>172000</MenuItem>
+                <MenuItem value={200000}>200000</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        )
+      }
     }
   }
   renderActions() {
-    const { connected, connect, connecting } = this.props
+    const { connected } = this.state
     if (connected) {
-      return <Button size="small">Disconnect</Button>
+      return (
+        <Button size="small" onClick={() => this.disconnect()}>
+          Disconnect
+        </Button>
+      )
     } else {
-      return <Fragment />
+      return (
+        <Button size="small" onClick={() => this.connect()}>
+          Connect
+        </Button>
+      )
     }
   }
   render() {

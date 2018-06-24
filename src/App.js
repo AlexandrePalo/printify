@@ -11,8 +11,8 @@ class App extends Component {
       <div className="App">
         <Header />
         <div className="Content">
-          <State connected />
-          <Temperatures />
+          <State />
+          <Temperatures printing />
         </div>
       </div>
     )

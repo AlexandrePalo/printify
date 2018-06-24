@@ -12,6 +12,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Input from '@material-ui/core/Input'
 
+// TODO: externalize state function and temperature values
+
 const styles = {
   card: {
     display: 'flex',
@@ -36,13 +38,11 @@ class Temperatures extends Component {
     bed: {
       current: 40,
       target: 60,
-      nextTarget: null,
       set: false
     },
     extruder: {
       current: 198,
       target: 200,
-      nextTarget: null,
       set: false
     }
   }
@@ -121,7 +121,7 @@ class Temperatures extends Component {
               {this.state[probe].target} °C
             </Typography>
             <IconButton
-              style={{ height: 24, width: 24 }}
+              style={{ height: 24, width: 24, marginLeft: 8 }}
               onClick={() =>
                 this.setState({
                   [probe]: {
@@ -204,7 +204,7 @@ class Temperatures extends Component {
             <Typography variant="body1" color="textSecondary">
               {this.state.extruder.current} °C
             </Typography>
-            {this.renderTemperatureTarget('extruder')}
+            {!this.props.printing && this.renderTemperatureTarget('extruder')}
           </div>
           <div
             style={{
@@ -222,7 +222,7 @@ class Temperatures extends Component {
             <Typography variant="body1" color="textSecondary">
               {this.state.bed.current} °C
             </Typography>
-            {this.renderTemperatureTarget('bed')}
+            {!this.props.printing && this.renderTemperatureTarget('bed')}
           </div>
         </div>
       </Fragment>
@@ -230,7 +230,10 @@ class Temperatures extends Component {
   }
 
   renderActions() {
-    if (this.state.bed.target || this.state.extruder.target) {
+    if (
+      (this.state.bed.target || this.state.extruder.target) &&
+      !this.props.printing
+    ) {
       return (
         <Button
           size="small"
