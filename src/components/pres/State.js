@@ -23,7 +23,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 16
   },
   title: {
     textAlign: 'left'

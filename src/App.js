@@ -6,6 +6,7 @@ import State from './components/pres/State'
 import Temperatures from './components/pres/Temperatures'
 import PrintHead from './components/pres/PrintHead'
 import Files from './components/pres/Files'
+import Printing from './components/pres/Printing'
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
           >
             <State />
             <Temperatures />
+            <Printing />
           </div>
           <div
             style={{

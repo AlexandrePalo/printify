@@ -42,16 +42,19 @@ class Files extends Component {
   state = {
     files: {
       1: {
+        id: 1,
         name: 'Cat low poly',
         duration: 2000,
         date: moment('2018-01-19').toISOString()
       },
       2: {
+        id: 2,
         name: 'Gears 20x30',
         duration: 3987,
         date: moment('2018-06-24').toISOString()
       },
       3: {
+        id: 3,
         name: 'Flower pot',
         duration: 28109,
         date: moment('2018-06-20').toISOString()
