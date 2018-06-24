@@ -217,57 +217,6 @@ class Temperatures extends Component {
         </TableBody>
       </Table>
     )
-    /*
-    return (
-      <Fragment>
-        <div
-          style={{
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'column',
-            alignItems: 'flex-start'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignSelf: 'stretch',
-              alignItems: 'center'
-            }}
-          >
-            <Typography variant="body1" color="textSecondary">
-              Extruder
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {this.state.extruder.current} °C
-            </Typography>
-            {!this.props.printing && this.renderTemperatureTarget('extruder')}
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignSelf: 'stretch',
-              alignItems: 'center'
-            }}
-          >
-            <Typography variant="body1" color="textSecondary">
-              Bed
-            </Typography>
-            <Typography variant="body1" color="textSecondary">
-              {this.state.bed.current} °C
-            </Typography>
-            {!this.props.printing && this.renderTemperatureTarget('bed')}
-          </div>
-        </div>
-      </Fragment>
-    )
-    */
   }
 
   renderActions() {
@@ -278,6 +227,8 @@ class Temperatures extends Component {
       return (
         <Button
           size="small"
+          variant="contained"
+          color="secondary"
           onClick={() =>
             this.setState({
               bed: { ...this.state.bed, target: null },

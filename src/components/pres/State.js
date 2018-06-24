@@ -159,17 +159,28 @@ class State extends Component {
       }
     }
   }
+
   renderActions() {
     const { connected } = this.state
     if (connected) {
       return (
-        <Button size="small" onClick={() => this.disconnect()}>
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          onClick={() => this.disconnect()}
+        >
           Disconnect
         </Button>
       )
     } else {
       return (
-        <Button size="small" onClick={() => this.connect()}>
+        <Button
+          size="small"
+          variant="contained"
+          color="primary"
+          onClick={() => this.connect()}
+        >
           Connect
         </Button>
       )

@@ -101,6 +101,12 @@ class Files extends Component {
                   style={{ height: 24, width: 24 }}
                   onClick={() => this.deleteFile(id)}
                 >
+                  <Icon style={{ fontSize: 16 }}>print</Icon>
+                </IconButton>
+                <IconButton
+                  style={{ height: 24, width: 24 }}
+                  onClick={() => this.deleteFile(id)}
+                >
                   <Icon style={{ fontSize: 16 }}>delete</Icon>
                 </IconButton>
               </TableCell>
@@ -112,8 +118,11 @@ class Files extends Component {
   }
 
   renderActions() {
-    let actions = []
-    return <Fragment>{actions.map(a => a)}</Fragment>
+    return (
+      <Button size="small" onClick={() => console.log('add file')}>
+        Add file
+      </Button>
+    )
   }
 
   render() {
