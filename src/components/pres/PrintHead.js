@@ -28,7 +28,6 @@ const styles = {
   },
   cardContent: {},
   content: {
-    marginTop: 30,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',

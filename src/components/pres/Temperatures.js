@@ -11,18 +11,23 @@ import TextField from '@material-ui/core/TextField'
 import InputLabel from '@material-ui/core/InputLabel'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Input from '@material-ui/core/Input'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+
+import { fp1 } from '../../utils/numbers'
 
 // TODO: externalize state function and temperature values
 
 const styles = {
   card: {
     display: 'flex',
-    flexDirection: 'column',
-    minWidth: 300
+    flexDirection: 'column'
   },
   cardContent: {},
   content: {
-    marginTop: 30,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -36,13 +41,13 @@ const styles = {
 class Temperatures extends Component {
   state = {
     bed: {
-      current: 40,
-      target: 60,
+      current: 40.0,
+      target: 60.0,
       set: false
     },
     extruder: {
-      current: 198,
-      target: 200,
+      current: 198.0,
+      target: 200.0,
       set: false
     }
   }
@@ -53,44 +58,17 @@ class Temperatures extends Component {
       : this.state[probe].current
     if (this.state[probe].set) {
       return (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            height: 30
-          }}
-        >
-          <form
-            onSubmit={() =>
-              this.setState({
-                [probe]: {
-                  ...this.state[probe],
-                  set: false,
-                  target
-                }
-              })
-            }
+        <TableCell component="th" scope="row">
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}
           >
-            <FormControl>
-              <Input
-                id="bedTarget"
-                label="target"
-                onChange={e => {
-                  target = e.target.value
-                }}
-                type="number"
-                defaultValue={target}
-                endAdornment={
-                  <InputAdornment position="end">°C</InputAdornment>
-                }
-                style={{ width: 70, fontSize: 14 }}
-              />
-            </FormControl>
-            <IconButton
-              style={{ height: 24, width: 24 }}
-              type="button"
-              onClick={() => {
+            <form
+              onSubmit={() =>
                 this.setState({
                   [probe]: {
                     ...this.state[probe],
@@ -98,86 +76,148 @@ class Temperatures extends Component {
                     target
                   }
                 })
-              }}
+              }
             >
-              <Icon style={{ fontSize: 16 }}>done</Icon>
-            </IconButton>
-          </form>
-        </div>
+              <FormControl>
+                <Input
+                  id="bedTarget"
+                  label="target"
+                  onChange={e => {
+                    target = e.target.value
+                  }}
+                  type="number"
+                  defaultValue={target}
+                  style={{ width: 40, fontSize: 14 }}
+                />
+              </FormControl>
+              <IconButton
+                style={{ height: 24, width: 24 }}
+                type="button"
+                onClick={() => {
+                  this.setState({
+                    [probe]: {
+                      ...this.state[probe],
+                      set: false,
+                      target
+                    }
+                  })
+                }}
+              >
+                <Icon style={{ fontSize: 16 }}>done</Icon>
+              </IconButton>
+            </form>
+          </div>
+        </TableCell>
       )
     } else {
       if (this.state[probe].target) {
         return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 30
-            }}
-          >
-            <Icon style={{ fontSize: 16 }}>flash_on</Icon>
-            <Typography variant="body1" color="textSecondary">
-              {this.state[probe].target} °C
-            </Typography>
-            <IconButton
-              style={{ height: 24, width: 24, marginLeft: 8 }}
-              onClick={() =>
-                this.setState({
-                  [probe]: {
-                    ...this.state[probe],
-                    set: true
-                  }
-                })
-              }
-            >
-              <Icon style={{ fontSize: 16 }}>edit</Icon>
-            </IconButton>
-            <IconButton
-              style={{ height: 24, width: 24 }}
-              onClick={() => {
-                this.setState({
-                  [probe]: {
-                    ...this.state[probe],
-                    target: null
-                  }
-                })
+          <TableCell component="th" scope="row">
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-end'
               }}
             >
-              <Icon style={{ fontSize: 16 }}>clear</Icon>
-            </IconButton>
-          </div>
+              <Icon style={{ fontSize: 16 }}>flash_on</Icon>
+              <Typography variant="body1" color="textSecondary">
+                {fp1(this.state[probe].target)}
+              </Typography>
+              <IconButton
+                style={{ height: 24, width: 24, marginLeft: 8 }}
+                onClick={() =>
+                  this.setState({
+                    [probe]: {
+                      ...this.state[probe],
+                      set: true
+                    }
+                  })
+                }
+              >
+                <Icon style={{ fontSize: 16 }}>edit</Icon>
+              </IconButton>
+              <IconButton
+                style={{ height: 24, width: 24 }}
+                onClick={() => {
+                  this.setState({
+                    [probe]: {
+                      ...this.state[probe],
+                      target: null
+                    }
+                  })
+                }}
+              >
+                <Icon style={{ fontSize: 16 }}>clear</Icon>
+              </IconButton>
+            </div>
+          </TableCell>
         )
       } else {
         return (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 30
-            }}
-          >
-            <IconButton
-              style={{ height: 24, width: 24 }}
-              onClick={() =>
-                this.setState({
-                  [probe]: {
-                    ...this.state[probe],
-                    set: true
-                  }
-                })
-              }
+          <TableCell component="th" scope="row">
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-end'
+              }}
             >
-              <Icon style={{ fontSize: 16 }}>edit</Icon>
-            </IconButton>
-          </div>
+              <IconButton
+                style={{ height: 24, width: 24 }}
+                onClick={() =>
+                  this.setState({
+                    [probe]: {
+                      ...this.state[probe],
+                      set: true
+                    }
+                  })
+                }
+              >
+                <Icon style={{ fontSize: 16 }}>edit</Icon>
+              </IconButton>
+            </div>
+          </TableCell>
         )
       }
     }
   }
 
   renderContent() {
+    return (
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Probe</TableCell>
+            <TableCell>Current (°C)</TableCell>
+            <TableCell numeric>Target (°C)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow key="extruder">
+            <TableCell component="th" scope="row">
+              Extuder
+            </TableCell>
+            <TableCell component="th" scope="row">
+              {fp1(this.state.extruder.current)}
+            </TableCell>
+            {this.renderTemperatureTarget('extruder')}
+          </TableRow>
+          <TableRow key="bed">
+            <TableCell component="th" scope="row">
+              Bed
+            </TableCell>
+            <TableCell component="th" scope="row">
+              {fp1(this.state.bed.current)}
+            </TableCell>
+            {this.renderTemperatureTarget('bed')}
+          </TableRow>
+        </TableBody>
+      </Table>
+    )
+    /*
     return (
       <Fragment>
         <div
@@ -227,6 +267,7 @@ class Temperatures extends Component {
         </div>
       </Fragment>
     )
+    */
   }
 
   renderActions() {

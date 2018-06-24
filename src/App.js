@@ -11,10 +11,39 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <div className="Content">
-          <State />
-          <Temperatures printing />
-          <PrintHead />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            alignSelf: 'stretch'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              alignSelf: 'stretch',
+              marginBottom: 32
+            }}
+          >
+            <State />
+            <Temperatures />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              alignSelf: 'stretch',
+              marginBottom: 32
+            }}
+          >
+            <PrintHead />
+          </div>
         </div>
       </div>
     )
