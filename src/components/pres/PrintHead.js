@@ -405,19 +405,10 @@ class PrintHead extends Component {
           <Icon
             style={{
               fontSize: 16,
-              color: 'rgba(0, 0, 0, 0.32)',
-              position: 'absolute'
+              color: 'rgba(0, 0, 0, 0.32)'
             }}
           >
-            flash_on
-          </Icon>
-          <Icon
-            style={{
-              fontSize: 16,
-              color: 'rgba(0, 0, 0, 0.54)'
-            }}
-          >
-            clear
+            flash_off
           </Icon>
         </IconButton>
       )
