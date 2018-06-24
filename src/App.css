@@ -37,7 +37,9 @@
 
 .Content {
   display: flex;
-  min-width: 700px;
+  align-self: stretch;
+  padding-left: 64px;
+  padding-right: 64px;
   justify-content: space-between;
   align-items: flex-start;
 }
