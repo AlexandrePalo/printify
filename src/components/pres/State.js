@@ -58,15 +58,6 @@ const styles = {
 }
 
 class State extends Component {
-  state = {
-    port: 0,
-    baudRate: 124000
-  }
-
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   renderContent() {
     const { connected } = this.props
     if (connected) {
@@ -89,10 +80,10 @@ class State extends Component {
               }}
             >
               <Typography variant="body1" color="textSecondary">
-                Port serie {this.state.port}
+                Port serie {this.props.port}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                Baud rate {this.state.baudRate} bits/s
+                Baud rate {this.props.baudRate} bits/s
               </Typography>
             </div>
             <Typography variant="body1" color="textSecondary">
@@ -116,8 +107,8 @@ class State extends Component {
             <FormControl>
               <InputLabel htmlFor="port">Port</InputLabel>
               <Select
-                value={this.state.port}
-                onChange={this.handleChange}
+                value={this.props.port}
+                onChange={e => this.props.setPort(e.target.value)}
                 inputProps={{
                   name: 'port',
                   id: 'port'
@@ -131,8 +122,8 @@ class State extends Component {
             <FormControl>
               <InputLabel htmlFor="port">Baud rate</InputLabel>
               <Select
-                value={this.state.baudRate}
-                onChange={this.handleChange}
+                value={this.props.baudRate}
+                onChange={e => this.props.setBaudRate(e.target.value)}
                 inputProps={{
                   name: 'baudRate',
                   id: 'baudRate'
@@ -169,7 +160,7 @@ class State extends Component {
           variant="contained"
           color="primary"
           onClick={() =>
-            this.props.connect(this.state.port, this.state.baudRate)
+            this.props.connect(this.props.port, this.props.baudRate)
           }
         >
           Connect
