@@ -41,108 +41,44 @@ const styles = {
 class PrintHead extends Component {
   state = {
     x: {
-      current: 1.0,
-      target: null,
-      speed: 3000,
       set: false,
-      setSpeed: false,
-      stepper: false
+      setSpeed: false
     },
     y: {
-      current: 1.0,
-      target: null,
-      speed: 3000,
       set: false,
-      setSpeed: false,
-      stepper: false
+      setSpeed: false
     },
     z: {
-      current: 1.0,
-      target: null,
-      speed: 1000,
       set: false,
-      setSpeed: false,
-      stepper: true
+      setSpeed: false
     }
   }
 
   goToTarget(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: this.state[a].target,
-        target: null
-      }
-    })
-  }
-
-  goToHome(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: 0.0
-      }
-    })
+    this.props.goToPosition(a, this.props[a].target)
+    this.props.setPositionTarget(a, null)
   }
 
   goToLeft(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: this.state[a].current - 0.1
-      }
-    })
+    this.props.goToPosition(a, this.props[a].current - 0.1)
   }
 
   goToRight(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: this.state[a].current + 0.1
-      }
-    })
+    this.props.goToPosition(a, this.props[a].current + 0.1)
   }
 
   goToLeftFast(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: this.state[a].current - 1.0
-      }
-    })
+    this.props.goToPosition(a, this.props[a].current - 1)
   }
 
   goToRightFast(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        current: this.state[a].current + 1.0
-      }
-    })
-  }
-
-  disableStepper(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        stepper: false
-      }
-    })
-  }
-
-  enableStepper(a) {
-    this.setState({
-      [a]: {
-        ...this.state[a],
-        stepper: true
-      }
-    })
+    this.props.goToPosition(a, this.props[a].current + 1)
   }
 
   renderPositionTarget(a) {
-    let target = this.state[a].target
-      ? this.state[a].target
-      : this.state[a].current
+    let target = this.props[a].target
+      ? this.props[a].target
+      : this.props[a].current
     if (this.state[a].set) {
       return (
         <TableCell numeric>
@@ -155,15 +91,15 @@ class PrintHead extends Component {
             }}
           >
             <form
-              onSubmit={() =>
+              onSubmit={() => {
                 this.setState({
                   [a]: {
                     ...this.state[a],
-                    set: false,
-                    target: target
+                    set: false
                   }
                 })
-              }
+                this.props.setPositionTarget(a, target)
+              }}
             >
               <FormControl>
                 <Input
@@ -185,10 +121,10 @@ class PrintHead extends Component {
                   this.setState({
                     [a]: {
                       ...this.state[a],
-                      set: false,
-                      target: target
+                      set: false
                     }
                   })
+                  this.props.setPositionTarget(a, target)
                 }}
               >
                 <Icon style={{ fontSize: 16 }}>done</Icon>
@@ -198,7 +134,7 @@ class PrintHead extends Component {
         </TableCell>
       )
     } else {
-      if (this.state[a].target) {
+      if (this.props[a].target) {
         return (
           <TableCell numeric>
             <div
@@ -216,7 +152,7 @@ class PrintHead extends Component {
                 <Icon style={{ fontSize: 16 }}>compare_arrows</Icon>
               </IconButton>
               <Typography variant="body1" color="textSecondary">
-                {fp3(this.state[a].target)}
+                {fp3(this.props[a].target)}
               </Typography>
               <IconButton
                 style={{ height: 24, width: 24, marginLeft: 8 }}
@@ -234,19 +170,14 @@ class PrintHead extends Component {
               <IconButton
                 style={{ height: 24, width: 24 }}
                 onClick={() => {
-                  this.setState({
-                    [a]: {
-                      ...this.state[a],
-                      target: null
-                    }
-                  })
+                  this.props.setPositionTarget(a, null)
                 }}
               >
                 <Icon style={{ fontSize: 16 }}>clear</Icon>
               </IconButton>
               <IconButton
                 style={{ height: 24, width: 24 }}
-                onClick={() => this.goToHome(a)}
+                onClick={() => this.props.goToHome(a)}
               >
                 <Icon style={{ fontSize: 16 }}>home</Icon>
               </IconButton>
@@ -279,7 +210,7 @@ class PrintHead extends Component {
               </IconButton>
               <IconButton
                 style={{ height: 24, width: 24 }}
-                onClick={() => this.goToHome(a)}
+                onClick={() => this.props.goToHome(a)}
               >
                 <Icon style={{ fontSize: 16 }}>home</Icon>
               </IconButton>
@@ -291,7 +222,7 @@ class PrintHead extends Component {
   }
 
   renderSpeed(a) {
-    let speed = this.state[a].speed
+    let speed = this.props[a].speed
     if (this.state[a].setSpeed) {
       return (
         <TableCell numeric>
@@ -304,15 +235,15 @@ class PrintHead extends Component {
             }}
           >
             <form
-              onSubmit={() =>
+              onSubmit={() => {
                 this.setState({
                   [a]: {
                     ...this.state[a],
-                    setSpeed: false,
-                    speed
+                    setSpeed: false
                   }
                 })
-              }
+                this.props.setSpeed(a, speed)
+              }}
             >
               <FormControl>
                 <Input
@@ -334,10 +265,10 @@ class PrintHead extends Component {
                   this.setState({
                     [a]: {
                       ...this.state[a],
-                      setSpeed: false,
-                      speed
+                      setSpeed: false
                     }
                   })
+                  this.props.setSpeed(a, speed)
                 }}
               >
                 <Icon style={{ fontSize: 16 }}>done</Icon>
@@ -358,7 +289,7 @@ class PrintHead extends Component {
             }}
           >
             <Typography variant="body1" color="textSecondary">
-              {this.state[a].speed}
+              {this.props[a].speed}
             </Typography>
             <IconButton
               style={{ height: 24, width: 24, marginLeft: 8 }}
@@ -380,11 +311,11 @@ class PrintHead extends Component {
   }
 
   renderStepperIndicator(a) {
-    if (this.state[a].stepper) {
+    if (this.props[a].stepper) {
       return (
         <IconButton
           style={{ height: 24, width: 24 }}
-          onClick={() => this.disableStepper(a)}
+          onClick={() => this.props.disableStepper(a)}
         >
           <Icon
             style={{
@@ -400,7 +331,7 @@ class PrintHead extends Component {
       return (
         <IconButton
           style={{ height: 24, width: 24 }}
-          onClick={() => this.enableStepper(a)}
+          onClick={() => this.props.enableStepper(a)}
         >
           <Icon
             style={{
@@ -466,7 +397,7 @@ class PrintHead extends Component {
                   >
                     <Icon style={{ fontSize: 16 }}>arrow_left</Icon>
                   </IconButton>
-                  {fp3(this.state[a].current)}
+                  {fp3(this.props[a].current)}
                   <IconButton
                     style={{ height: 24, width: 24, marginLeft: 8 }}
                     onClick={() => this.goToRight(a)}
@@ -523,9 +454,9 @@ class PrintHead extends Component {
         <Button
           size="small"
           onClick={() => {
-            this.disableStepper('x')
-            this.disableStepper('y')
-            this.disableStepper('z')
+            this.props.disableStepper('x')
+            this.props.disableStepper('y')
+            this.props.disableStepper('z')
           }}
         >
           Disable all steppers
@@ -542,9 +473,9 @@ class PrintHead extends Component {
         <Button
           size="small"
           onClick={() => {
-            this.enableStepper('x')
-            this.enableStepper('y')
-            this.enableStepper('z')
+            this.props.enableStepper('x')
+            this.props.enableStepper('y')
+            this.props.enableStepper('z')
           }}
         >
           Enable all steppers

@@ -41,21 +41,17 @@ const styles = {
 class Temperatures extends Component {
   state = {
     bed: {
-      current: 40.0,
-      target: 60.0,
       set: false
     },
     extruder: {
-      current: 198.0,
-      target: 200.0,
       set: false
     }
   }
 
   renderTemperatureTarget(probe) {
-    let target = this.state[probe].target
-      ? this.state[probe].target
-      : this.state[probe].current
+    let target = this.props[probe].target
+      ? this.props[probe].target
+      : this.props[probe].current
     if (this.state[probe].set) {
       return (
         <TableCell component="th" scope="row">
@@ -68,15 +64,14 @@ class Temperatures extends Component {
             }}
           >
             <form
-              onSubmit={() =>
+              onSubmit={() => {
                 this.setState({
                   [probe]: {
-                    ...this.state[probe],
-                    set: false,
-                    target
+                    set: false
                   }
                 })
-              }
+                this.props.setTemperatureTarget(probe, target)
+              }}
             >
               <FormControl>
                 <Input
@@ -96,11 +91,10 @@ class Temperatures extends Component {
                 onClick={() => {
                   this.setState({
                     [probe]: {
-                      ...this.state[probe],
-                      set: false,
-                      target
+                      set: false
                     }
                   })
+                  this.props.setTemperatureTarget(probe, target)
                 }}
               >
                 <Icon style={{ fontSize: 16 }}>done</Icon>
@@ -110,7 +104,7 @@ class Temperatures extends Component {
         </TableCell>
       )
     } else {
-      if (this.state[probe].target) {
+      if (this.props[probe].target) {
         return (
           <TableCell component="th" scope="row">
             <div
@@ -123,14 +117,13 @@ class Temperatures extends Component {
             >
               <Icon style={{ fontSize: 16 }}>flash_on</Icon>
               <Typography variant="body1" color="textSecondary">
-                {fp1(this.state[probe].target)}
+                {fp1(this.props[probe].target)}
               </Typography>
               <IconButton
                 style={{ height: 24, width: 24, marginLeft: 8 }}
                 onClick={() =>
                   this.setState({
                     [probe]: {
-                      ...this.state[probe],
                       set: true
                     }
                   })
@@ -141,12 +134,7 @@ class Temperatures extends Component {
               <IconButton
                 style={{ height: 24, width: 24 }}
                 onClick={() => {
-                  this.setState({
-                    [probe]: {
-                      ...this.state[probe],
-                      target: null
-                    }
-                  })
+                  this.props.setTemperatureTarget(probe, null)
                 }}
               >
                 <Icon style={{ fontSize: 16 }}>clear</Icon>
@@ -170,7 +158,6 @@ class Temperatures extends Component {
                 onClick={() =>
                   this.setState({
                     [probe]: {
-                      ...this.state[probe],
                       set: true
                     }
                   })
@@ -201,7 +188,7 @@ class Temperatures extends Component {
               Extuder
             </TableCell>
             <TableCell component="th" scope="row">
-              {fp1(this.state.extruder.current)}
+              {fp1(this.props.extruder.current)}
             </TableCell>
             {this.renderTemperatureTarget('extruder')}
           </TableRow>
@@ -210,7 +197,7 @@ class Temperatures extends Component {
               Bed
             </TableCell>
             <TableCell component="th" scope="row">
-              {fp1(this.state.bed.current)}
+              {fp1(this.props.bed.current)}
             </TableCell>
             {this.renderTemperatureTarget('bed')}
           </TableRow>
@@ -221,7 +208,7 @@ class Temperatures extends Component {
 
   renderActions() {
     if (
-      (this.state.bed.target || this.state.extruder.target) &&
+      (this.props.bed.target || this.props.extruder.target) &&
       !this.props.printing
     ) {
       return (

@@ -17,18 +17,22 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Stepper from '@material-ui/core/Stepper'
+import Step from '@material-ui/core/Step'
+import StepButton from '@material-ui/core/StepButton'
+import ProgressPrinting from './ProgressPrinting'
 import moment from 'moment'
+
+import StepperPrinting from './StepperPrinting'
 
 const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 300
+    minWidth: 400
   },
   cardContent: {},
-  content: {
-    marginTop: 16
-  },
+  content: {},
   title: {
     textAlign: 'left'
   }
@@ -43,9 +47,11 @@ class Printing extends Component {
       date: moment('2018-06-20').toISOString()
     },
     feedRate: 100,
-    durations: {
-      past: 3000,
-      total: 28109
+    print: {
+      begin: null,
+      paused: false,
+      end: null,
+      finished: false
     }
   }
 
@@ -53,9 +59,158 @@ class Printing extends Component {
     this.setState({ feedRate: this.state.feedRate + change })
   }
 
+  start() {
+    this.setState({
+      print: {
+        ...this.state.print,
+        paused: false,
+        end: null,
+        finished: false,
+        begin: moment().toISOString()
+      }
+    })
+  }
+
+  stop() {
+    // manual stop, not finished
+    this.setState(
+      this.setState({
+        print: {
+          ...this.state.print,
+          end: moment().toISOString(),
+          paused: false,
+          finished: false
+        }
+      })
+    )
+  }
+
+  pause() {
+    this.setState(
+      this.setState({
+        print: {
+          ...this.state.print,
+          paused: true,
+          finished: false,
+          end: null
+        }
+      })
+    )
+  }
+
+  renderControlButtons() {
+    // Printing
+    if (
+      this.state.print.begin &&
+      !this.state.print.paused &&
+      !this.state.print.end
+    ) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            alignSelf: 'stretch',
+            marginTop: 8
+          }}
+        >
+          <IconButton
+            style={{ height: 72, width: 72 }}
+            onClick={() => this.pause()}
+          >
+            <Icon style={{ fontSize: 64 }}>pause</Icon>
+          </IconButton>
+          <IconButton
+            style={{ height: 72, width: 72 }}
+            onClick={() => this.stop()}
+          >
+            <Icon style={{ fontSize: 64 }}>stop</Icon>
+          </IconButton>
+        </div>
+      )
+    }
+    // Paused
+    if (this.state.print.paused) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            alignSelf: 'stretch',
+            marginTop: 8
+          }}
+        >
+          <Typography variant="body1" color="textSecondary">
+            Paused
+          </Typography>
+          <IconButton
+            style={{ height: 72, width: 72 }}
+            onClick={() => this.start()}
+          >
+            <Icon style={{ fontSize: 64 }}>play_arrow</Icon>
+          </IconButton>
+        </div>
+      )
+    }
+
+    // Stopped
+    if (this.state.print.end && !this.state.print.finished) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            alignSelf: 'stretch',
+            marginTop: 8
+          }}
+        >
+          <Typography variant="body1" color="textSecondary">
+            Stopped
+          </Typography>
+          <IconButton
+            style={{ height: 72, width: 72 }}
+            onClick={() => this.start()}
+          >
+            <Icon style={{ fontSize: 64 }}>loop</Icon>
+          </IconButton>
+        </div>
+      )
+    }
+
+    // Not started yet
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          alignSelf: 'stretch',
+          marginTop: 8
+        }}
+      >
+        <IconButton
+          style={{ height: 72, width: 72 }}
+          onClick={() => this.start()}
+        >
+          <Icon style={{ fontSize: 64 }}>play_arrow</Icon>
+        </IconButton>
+      </div>
+    )
+  }
+
   renderContent() {
     return (
       <div>
+        {this.renderControlButtons()}
+        <StepperPrinting />
+        <ProgressPrinting />
         <div
           style={{
             display: 'flex',
@@ -123,28 +278,6 @@ class Printing extends Component {
               <Icon style={{ fontSize: 16 }}>arrow_right</Icon>
             </IconButton>
           </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            alignSelf: 'stretch'
-          }}
-        >
-          <IconButton
-            style={{ height: 72, width: 72 }}
-            onClick={() => this.pause()}
-          >
-            <Icon style={{ fontSize: 64 }}>arrow_right</Icon>
-          </IconButton>
-          <IconButton
-            style={{ height: 72, width: 72 }}
-            onClick={() => this.stop()}
-          >
-            <Icon style={{ fontSize: 64 }}>arrow_right</Icon>
-          </IconButton>
         </div>
       </div>
     )
