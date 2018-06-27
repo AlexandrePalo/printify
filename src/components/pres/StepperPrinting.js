@@ -2,27 +2,6 @@ import React, { Component } from 'react'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-
-const styles = theme => ({
-  root: {
-    width: '90%'
-  },
-  button: {
-    marginRight: theme.spacing.unit
-  },
-  backButton: {
-    marginRight: theme.spacing.unit
-  },
-  completed: {
-    display: 'inline-block'
-  },
-  instructions: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
-  }
-})
 
 function getSteps() {
   return ['Loading', 'Heating', 'Printing', 'Finish']
