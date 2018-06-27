@@ -33,39 +33,6 @@ const styles = {
 }
 
 class Files extends Component {
-  state = {
-    files: {
-      1: {
-        id: 1,
-        name: 'Cat low poly',
-        duration: 2000,
-        date: moment('2018-01-19').toISOString()
-      },
-      2: {
-        id: 2,
-        name: 'Gears 20x30',
-        duration: 3987,
-        date: moment('2018-06-24').toISOString()
-      },
-      3: {
-        id: 3,
-        name: 'Flower pot',
-        duration: 28109,
-        date: moment('2018-06-20').toISOString()
-      }
-    }
-  }
-
-  deleteFile(id) {
-    let nFiles = {}
-    Object.keys(this.state.files).forEach(x => {
-      if (x !== id) {
-        nFiles[x] = this.state.files[x]
-      }
-    })
-    this.setState({ files: nFiles })
-  }
-
   renderContent() {
     return (
       <Table>
@@ -78,16 +45,16 @@ class Files extends Component {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(this.state.files).map(id => (
+          {this.props.byId.map(id => (
             <TableRow key={id}>
               <TableCell component="th" scope="row">
-                {moment(this.state.files[id].date).format('DD/MM/YY')}
+                {moment(this.props.byHash[id].date).format('DD/MM/YY')}
               </TableCell>
               <TableCell component="th" scope="row">
-                {this.state.files[id].name}
+                {this.props.byHash[id].name}
               </TableCell>
               <TableCell component="th" scope="row" numeric>
-                {humanizeDuration(this.state.files[id].duration * 1000, {
+                {humanizeDuration(this.props.byHash[id].duration * 1000, {
                   language: 'en',
                   units: ['h', 'm'],
                   round: true
@@ -96,13 +63,13 @@ class Files extends Component {
               <TableCell component="th" scope="row">
                 <IconButton
                   style={{ height: 24, width: 24 }}
-                  onClick={() => this.deleteFile(id)}
+                  onClick={() => this.props.deleteFile(id)}
                 >
                   <Icon style={{ fontSize: 16 }}>print</Icon>
                 </IconButton>
                 <IconButton
                   style={{ height: 24, width: 24 }}
-                  onClick={() => this.deleteFile(id)}
+                  onClick={() => this.props.deleteFile(id)}
                 >
                   <Icon style={{ fontSize: 16 }}>delete</Icon>
                 </IconButton>

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import Files from '../pres/Files'
+import Files from '../cont/Files'
 import Printing from '../pres/Printing'
 import State from '../cont/State'
 import Temperatures from '../cont/Temperatures'
