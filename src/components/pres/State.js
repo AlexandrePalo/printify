@@ -9,8 +9,6 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 
-// TODO: externalize connect, props
-
 const styles = {
   card: {
     display: 'flex',
@@ -62,24 +60,15 @@ const styles = {
 class State extends Component {
   state = {
     port: 0,
-    baudRate: 124000,
-    connected: false,
-    connecting: false
+    baudRate: 124000
   }
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  connect() {
-    this.setState({ connected: true })
-  }
-  disconnect() {
-    this.setState({ connected: false })
-  }
-
   renderContent() {
-    const { connected } = this.state
+    const { connected } = this.props
     if (connected) {
       return (
         <Fragment>
@@ -113,7 +102,7 @@ class State extends Component {
         </Fragment>
       )
     } else {
-      if (this.state.connecting) {
+      if (this.props.connecting) {
         // loading
       } else {
         return (
@@ -161,14 +150,14 @@ class State extends Component {
   }
 
   renderActions() {
-    const { connected } = this.state
+    const { connected } = this.props
     if (connected) {
       return (
         <Button
           size="small"
           variant="contained"
           color="secondary"
-          onClick={() => this.disconnect()}
+          onClick={() => this.props.disconnect()}
         >
           Disconnect
         </Button>
@@ -179,7 +168,9 @@ class State extends Component {
           size="small"
           variant="contained"
           color="primary"
-          onClick={() => this.connect()}
+          onClick={() =>
+            this.props.connect(this.state.port, this.state.baudRate)
+          }
         >
           Connect
         </Button>

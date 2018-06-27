@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Files from '../pres/Files'
 import Printing from '../pres/Printing'
-import State from '../pres/State'
+import State from '../cont/State'
 import Temperatures from '../cont/Temperatures'
 import PrintHead from '../cont/PrintHead'
 

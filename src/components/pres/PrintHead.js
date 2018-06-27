@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, cloneElement } from 'react'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
@@ -423,17 +423,17 @@ class PrintHead extends Component {
   renderActions() {
     let actions = []
     if (
-      this.state['x'].current !== 0.0 ||
-      this.state['y'].current !== 0.0 ||
-      this.state['z'].current !== 0.0
+      this.props['x'].current !== 0.0 ||
+      this.props['y'].current !== 0.0 ||
+      this.props['z'].current !== 0.0
     ) {
       actions.push(
         <Button
           size="small"
           onClick={() => {
-            this.goToHome('x')
-            this.goToHome('y')
-            this.goToHome('z')
+            this.props.goToHome('x')
+            this.props.goToHome('y')
+            this.props.goToHome('z')
           }}
         >
           All home
@@ -442,9 +442,9 @@ class PrintHead extends Component {
     }
 
     if (
-      this.state['x'].stepper ||
-      this.state['y'].stepper ||
-      this.state['z'].stepper
+      this.props['x'].stepper ||
+      this.props['y'].stepper ||
+      this.props['z'].stepper
     ) {
       actions.push(
         <Button
@@ -461,9 +461,9 @@ class PrintHead extends Component {
     }
 
     if (
-      !this.state['x'].stepper ||
-      !this.state['y'].stepper ||
-      !this.state['z'].stepper
+      !this.props['x'].stepper ||
+      !this.props['y'].stepper ||
+      !this.props['z'].stepper
     ) {
       actions.push(
         <Button
@@ -479,7 +479,9 @@ class PrintHead extends Component {
       )
     }
 
-    return <Fragment>{actions.map(a => a)}</Fragment>
+    return (
+      <Fragment>{actions.map((a, i) => cloneElement(a, { key: i }))}</Fragment>
+    )
   }
 
   render() {

@@ -27,7 +27,7 @@ class Header extends Component {
               <Icon style={{ fontSize: 24, marginRight: 8 }}>
                 vertical_align_bottom
               </Icon>
-              <Typography variant="subtitle">
+              <Typography variant="subheading">
                 {this.props.temperatures.extruder.current}°C
               </Typography>
             </div>
@@ -35,7 +35,7 @@ class Header extends Component {
               style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
             >
               <Icon style={{ fontSize: 24, marginRight: 8 }}>space_bar</Icon>
-              <Typography variant="subtitle">
+              <Typography variant="subheading">
                 {this.props.temperatures.bed.current}°C
               </Typography>
             </div>
@@ -43,10 +43,10 @@ class Header extends Component {
               style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
             >
               <Icon style={{ fontSize: 24, marginRight: 8 }}>printer</Icon>
-              <Typography variant="subtitle" style={{ marginRight: 8 }}>
+              <Typography variant="subheading" style={{ marginRight: 8 }}>
                 Flower pot
               </Typography>
-              <Typography variant="subtitle">35%</Typography>
+              <Typography variant="subheading">35%</Typography>
             </div>
             <div
               style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
@@ -60,7 +60,7 @@ class Header extends Component {
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="subtitle">Alexandre PALO</Typography>
+            <Typography variant="subheading">Alexandre PALO</Typography>
             <IconButton
               style={{ height: 32, width: 32, marginLeft: 16 }}
               onClick={() => console.log('account')}
