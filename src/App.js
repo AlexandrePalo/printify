@@ -3,16 +3,15 @@ import { Provider } from 'react-redux'
 import './App.css'
 import store from './redux/store'
 import Main from './components/cont/Main'
-import Header from './components/cont/Header'
+import ResponsiveWrapper from './components/cont/ResponsiveWrapper'
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App">
-          <Header />
+        <ResponsiveWrapper>
           <Main />
-        </div>
+        </ResponsiveWrapper>
       </Provider>
     )
   }

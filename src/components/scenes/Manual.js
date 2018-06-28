@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import Files from '../cont/Files'
 import Printing from '../cont/Printing'
-import State from '../cont/State'
 import Temperatures from '../cont/Temperatures'
 import PrintHead from '../cont/PrintHead'
+import Header from '../cont/Header'
 
 class Manual extends Component {
   render() {
     return (
       <Fragment>
+        <Header />
         <div
           style={{
             display: 'flex',

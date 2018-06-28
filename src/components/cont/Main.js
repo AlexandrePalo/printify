@@ -11,7 +11,6 @@ const mapDispatchToProps = dispatch => ({})
 
 class Main extends Component {
   render() {
-    console.log(this.props.printing)
     if (this.props.printing) {
       return <Print />
     } else {
