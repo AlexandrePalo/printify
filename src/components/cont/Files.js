@@ -11,7 +11,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: 'DELETE_FILE',
       payload: { id }
-    })
+    }),
+  setPrintedFile: file =>
+    dispatch({ type: 'SET_PRINTED_FILE', payload: { file } })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Files)

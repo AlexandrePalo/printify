@@ -5,8 +5,7 @@ import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
-import ProgressPrinting from './ProgressPrinting'
-import moment from 'moment'
+import ProgressPrinting from '../cont/ProgressPrinting'
 
 import StepperPrinting from './StepperPrinting'
 
@@ -24,72 +23,9 @@ const styles = {
 }
 
 class Printing extends Component {
-  state = {
-    file: {
-      id: 3,
-      name: 'Flower pot',
-      duration: 28109,
-      date: moment('2018-06-20').toISOString()
-    },
-    feedRate: 100,
-    print: {
-      begin: null,
-      paused: false,
-      end: null,
-      finished: false
-    }
-  }
-
-  changeFeedRate(change) {
-    this.setState({ feedRate: this.state.feedRate + change })
-  }
-
-  start() {
-    this.setState({
-      print: {
-        ...this.state.print,
-        paused: false,
-        end: null,
-        finished: false,
-        begin: moment().toISOString()
-      }
-    })
-  }
-
-  stop() {
-    // manual stop, not finished
-    this.setState(
-      this.setState({
-        print: {
-          ...this.state.print,
-          end: moment().toISOString(),
-          paused: false,
-          finished: false
-        }
-      })
-    )
-  }
-
-  pause() {
-    this.setState(
-      this.setState({
-        print: {
-          ...this.state.print,
-          paused: true,
-          finished: false,
-          end: null
-        }
-      })
-    )
-  }
-
   renderControlButtons() {
     // Printing
-    if (
-      this.state.print.begin &&
-      !this.state.print.paused &&
-      !this.state.print.end
-    ) {
+    if (this.props.begin && !this.props.paused && !this.props.end) {
       return (
         <div
           style={{
@@ -103,13 +39,13 @@ class Printing extends Component {
         >
           <IconButton
             style={{ height: 72, width: 72 }}
-            onClick={() => this.pause()}
+            onClick={() => this.props.pausePrinting()}
           >
             <Icon style={{ fontSize: 64 }}>pause</Icon>
           </IconButton>
           <IconButton
             style={{ height: 72, width: 72 }}
-            onClick={() => this.stop()}
+            onClick={() => this.props.stopPrinting()}
           >
             <Icon style={{ fontSize: 64 }}>stop</Icon>
           </IconButton>
@@ -117,7 +53,7 @@ class Printing extends Component {
       )
     }
     // Paused
-    if (this.state.print.paused) {
+    if (this.props.paused) {
       return (
         <div
           style={{
@@ -134,7 +70,7 @@ class Printing extends Component {
           </Typography>
           <IconButton
             style={{ height: 72, width: 72 }}
-            onClick={() => this.start()}
+            onClick={() => this.props.startPrinting()}
           >
             <Icon style={{ fontSize: 64 }}>play_arrow</Icon>
           </IconButton>
@@ -143,7 +79,7 @@ class Printing extends Component {
     }
 
     // Stopped
-    if (this.state.print.end && !this.state.print.finished) {
+    if (this.props.end && !this.props.finished) {
       return (
         <div
           style={{
@@ -160,7 +96,7 @@ class Printing extends Component {
           </Typography>
           <IconButton
             style={{ height: 72, width: 72 }}
-            onClick={() => this.start()}
+            onClick={() => this.props.startPrinting()}
           >
             <Icon style={{ fontSize: 64 }}>loop</Icon>
           </IconButton>
@@ -182,7 +118,7 @@ class Printing extends Component {
       >
         <IconButton
           style={{ height: 72, width: 72 }}
-          onClick={() => this.start()}
+          onClick={() => this.props.startPrinting()}
         >
           <Icon style={{ fontSize: 64 }}>play_arrow</Icon>
         </IconButton>
@@ -209,7 +145,7 @@ class Printing extends Component {
             Printing :
           </Typography>
           <Typography variant="body1" color="textSecondary">
-            {this.state.file.name}
+            {this.props.file.name}
           </Typography>
         </div>
         <div
@@ -233,29 +169,29 @@ class Printing extends Component {
           >
             <IconButton
               style={{ height: 24, width: 24 }}
-              onClick={() => this.changeFeedRate(-10)}
+              onClick={() => this.props.setFeedRate(this.props.feedRate - 10)}
             >
               <Icon style={{ fontSize: 16 }}>arrow_left</Icon>
               <Icon style={{ fontSize: 16, marginLeft: -12 }}>arrow_left</Icon>
             </IconButton>
             <IconButton
               style={{ height: 24, width: 24, marginRight: 4 }}
-              onClick={() => this.changeFeedRate(-1)}
+              onClick={() => this.props.setFeedRate(this.props.feedRate - 1)}
             >
               <Icon style={{ fontSize: 16 }}>arrow_left</Icon>
             </IconButton>
             <Typography variant="body1" color="textSecondary">
-              {this.state.feedRate} %
+              {this.props.feedRate} %
             </Typography>
             <IconButton
               style={{ height: 24, width: 24, marginLeft: 4 }}
-              onClick={() => this.changeFeedRate(1)}
+              onClick={() => this.props.setFeedRate(this.props.feedRate + 1)}
             >
               <Icon style={{ fontSize: 16 }}>arrow_right</Icon>
             </IconButton>
             <IconButton
               style={{ height: 24, width: 24 }}
-              onClick={() => this.changeFeedRate(10)}
+              onClick={() => this.props.setFeedRate(this.props.feedRate + 10)}
             >
               <Icon style={{ fontSize: 16, marginRight: -12 }}>
                 arrow_right

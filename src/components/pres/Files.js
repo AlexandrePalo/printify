@@ -63,7 +63,9 @@ class Files extends Component {
               <TableCell component="th" scope="row">
                 <IconButton
                   style={{ height: 24, width: 24 }}
-                  onClick={() => this.props.deleteFile(id)}
+                  onClick={() =>
+                    this.props.setPrintedFile(this.props.byHash[id])
+                  }
                 >
                   <Icon style={{ fontSize: 16 }}>print</Icon>
                 </IconButton>
