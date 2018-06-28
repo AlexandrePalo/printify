@@ -12,7 +12,9 @@ const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 400
+    minWidth: 400,
+    margin: 8,
+    flex: 1
   },
   cardContent: {},
   content: {},
@@ -76,7 +78,6 @@ class Printing extends Component {
         </div>
       )
     }
-
     // Stopped
     if (this.props.end && !this.props.finished) {
       return (
@@ -97,7 +98,13 @@ class Printing extends Component {
             style={{ height: 72, width: 72 }}
             onClick={() => this.props.startPrinting()}
           >
-            <Icon style={{ fontSize: 64 }}>loop</Icon>
+            <Icon style={{ fontSize: 64 }}>replay</Icon>
+          </IconButton>
+          <IconButton
+            style={{ height: 72, width: 72 }}
+            onClick={() => this.props.resetPrinting()}
+          >
+            <Icon style={{ fontSize: 64 }}>clear</Icon>
           </IconButton>
         </div>
       )

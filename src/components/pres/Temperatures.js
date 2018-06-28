@@ -21,7 +21,9 @@ import { fp1 } from '../../utils/numbers'
 const styles = {
   card: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    margin: 8,
+    flex: 1
   },
   cardContent: {},
   content: {

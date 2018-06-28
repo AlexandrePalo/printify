@@ -59,6 +59,17 @@ const printReducer = (state = initial, action) => {
         paused: false,
         finished: false
       }
+    case 'RESET_PRINTING':
+      return {
+        ...state,
+        begin: null,
+        current: 0,
+        finished: false,
+        end: null,
+        paused: false,
+        completed: [],
+        activeStep: 0
+      }
     case 'SET_PRINTED_FEEDRATE':
       return {
         ...state,

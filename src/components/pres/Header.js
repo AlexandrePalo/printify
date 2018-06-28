@@ -7,7 +7,7 @@ import Icon from '@material-ui/core/Icon'
 
 const styles = {
   appbar: {
-    marginBottom: 30
+    marginBottom: 8
   }
 }
 

@@ -3,10 +3,6 @@ import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 
-function getSteps() {
-  return ['Loading', 'Heating', 'Printing', 'Done']
-}
-
 class StepperPrinting extends Component {
   isStepComplete(index) {
     return this.props.completed.includes(index)

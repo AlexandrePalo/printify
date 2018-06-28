@@ -19,6 +19,11 @@ const pausePrinting = () => {
   return { type: 'PAUSE_PRINTING' }
 }
 
+const resetPrinting = () => {
+  clearInterval(timer)
+  return { type: 'RESET_PRINTING' }
+}
+
 const resumePrinting = () => dispatch => {
   clearInterval(timer)
   timer = setInterval(() => dispatch({ type: 'PRINTING_TIMER_TICK' }), 1000)
@@ -35,6 +40,7 @@ const mapDispatchToProps = dispatch => ({
   stopPrinting: () => dispatch(stopPrinting()),
   pausePrinting: () => dispatch(pausePrinting()),
   resumePrinting: () => dispatch(resumePrinting()),
+  resetPrinting: () => dispatch(resetPrinting()),
   setFeedRate: value =>
     dispatch({ type: 'SET_PRINTED_FEEDRATE', payload: { value } })
 })

@@ -9,16 +9,27 @@ class Manual extends Component {
   render() {
     return (
       <Fragment>
-        <div>
-          <Printing />
-          <div>
-            <PrintHead />
-            <Temperatures />
-          </div>
-        </div>
-        <div>
-          <State />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'stretch',
+            alignItems: 'flex-start'
+          }}
+        >
           <Files />
+          <Printing />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'stretch',
+            alignItems: 'flex-start'
+          }}
+        >
+          <PrintHead />
+          <Temperatures />
         </div>
       </Fragment>
     )
@@ -26,3 +37,32 @@ class Manual extends Component {
 }
 
 export default Manual
+
+/*
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    marginLeft: 16
+  }}
+>
+  <div style={{ marginBottom: 16 }}>
+    <Files />
+  </div>
+  <Temperatures />
+</div>
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    marginLeft: 16
+  }}
+>
+  <div style={{ marginBottom: 16 }}>
+    <Printing />
+  </div>
+  <PrintHead />
+</div>
+*/

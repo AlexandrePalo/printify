@@ -20,7 +20,8 @@ const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 300
+    margin: 8,
+    flex: 1
   },
   cardContent: {},
   content: {
