@@ -4,13 +4,8 @@ import Typography from '@material-ui/core/Typography'
 import humanizeDuration from 'humanize-duration'
 
 class ProgressPrinting extends Component {
-  state = {
-    current: 9867,
-    total: 28109
-  }
-
   getCurrentPercentage() {
-    return Math.round(this.state.current / this.state.total * 100, 2)
+    return Math.round(this.props.current / this.props.file.duration * 100, 2)
   }
 
   render() {
@@ -34,9 +29,9 @@ class ProgressPrinting extends Component {
               Elapsed
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              {humanizeDuration(this.state.current * 1000, {
+              {humanizeDuration(this.props.current * 1000, {
                 language: 'en',
-                units: ['h', 'm'],
+                units: ['h', 'm', 's'],
                 round: true
               }) +
                 ' ' +
@@ -55,9 +50,9 @@ class ProgressPrinting extends Component {
               Total
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              {humanizeDuration(this.state.total * 1000, {
+              {humanizeDuration(this.props.file.duration * 1000, {
                 language: 'en',
-                units: ['h', 'm'],
+                units: ['h', 'm', 's'],
                 round: true
               })}
             </Typography>

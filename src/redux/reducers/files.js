@@ -6,7 +6,7 @@ const initial = {
     1: {
       id: 1,
       name: 'Cat low poly',
-      duration: 2000,
+      duration: 100,
       date: moment('2018-01-19').toISOString()
     },
     2: {

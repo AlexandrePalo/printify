@@ -1,0 +1,10 @@
+- get ports list
+- connect to printer
+- disconnect to printer
+- send command (get temp, go to position, go to home, set temp, print, ...)
+- get info print (elapsed ...)
+
+- get files list
+- add file
+- remove file
+- read file

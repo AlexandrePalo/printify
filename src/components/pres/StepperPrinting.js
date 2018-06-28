@@ -4,108 +4,19 @@ import Step from '@material-ui/core/Step'
 import StepLabel from '@material-ui/core/StepLabel'
 
 function getSteps() {
-  return ['Loading', 'Heating', 'Printing', 'Finish']
+  return ['Loading', 'Heating', 'Printing', 'Done']
 }
 
 class StepperPrinting extends Component {
-  state = {
-    activeStep: 0,
-    completed: new Set(),
-    skipped: new Set()
-  }
-
-  totalSteps = () => {
-    return getSteps().length
-  }
-
-  isStepComplete(step) {
-    return this.state.completed.has(step)
-  }
-
-  completedSteps() {
-    return this.state.completed.size
-  }
-
-  allStepsCompleted() {
-    return this.completedSteps() === this.totalSteps() - this.skippedSteps()
-  }
-
-  isLastStep() {
-    return this.state.activeStep === this.totalSteps() - 1
-  }
-
-  isStepOptional = step => {
-    return step === 1
-  }
-
-  isStepSkipped(step) {
-    return this.state.skipped.has(step)
-  }
-
-  skippedSteps() {
-    return this.state.skipped.size
-  }
-
-  handleNext = () => {
-    let activeStep
-
-    if (this.isLastStep() && !this.allStepsCompleted()) {
-      // It's the last step, but not all steps have been completed
-      // find the first step that has been completed
-      const steps = getSteps()
-      activeStep = steps.findIndex((step, i) => !this.state.completed.has(i))
-    } else {
-      activeStep = this.state.activeStep + 1
-    }
-    this.setState({
-      activeStep
-    })
-  }
-
-  handleBack = () => {
-    this.setState({
-      activeStep: this.state.activeStep - 1
-    })
-  }
-
-  handleStep = step => () => {
-    this.setState({
-      activeStep: step
-    })
-  }
-
-  handleComplete = () => {
-    const completed = new Set(this.state.completed)
-    completed.add(this.state.activeStep)
-    this.setState({
-      completed
-    })
-    /**
-     * Sigh... it would be much nicer to replace the following if conditional with
-     * `if (!this.allStepsComplete())` however state is not set when we do this,
-     * thus we have to resort to not being very DRY.
-     */
-    if (completed.size !== this.totalSteps() - this.skippedSteps()) {
-      this.handleNext()
-    }
-  }
-
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-      completed: new Set(),
-      skipped: new Set()
-    })
+  isStepComplete(index) {
+    return this.props.completed.includes(index)
   }
 
   render() {
-    const steps = getSteps()
-    const { activeStep } = this.state
-
     return (
       <div>
-        <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => {
+        <Stepper alternativeLabel nonLinear activeStep={this.props.activeStep}>
+          {this.props.steps.map((label, index) => {
             const props = { completed: this.isStepComplete(index) }
             return (
               <Step key={label} {...props}>
