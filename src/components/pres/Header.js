@@ -23,6 +23,13 @@ class Header extends Component {
             </Typography>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{ display: 'flex', alignItems: 'center', marginRight: 16 }}
+            >
+              <Typography variant="subheading">
+                FR {this.props.print.feedRate}%
+              </Typography>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Icon style={{ fontSize: 24, marginRight: 8 }}>
                 vertical_align_bottom
@@ -44,19 +51,23 @@ class Header extends Component {
             >
               <Icon style={{ fontSize: 24, marginRight: 8 }}>printer</Icon>
               <Typography variant="subheading" style={{ marginRight: 8 }}>
-                Flower pot
+                {this.props.print.file.name}
               </Typography>
-              <Typography variant="subheading">35%</Typography>
+              <Typography variant="subheading">
+                {Math.round(
+                  this.props.print.current /
+                    this.props.print.file.duration *
+                    100,
+                  2
+                )}%
+              </Typography>
             </div>
             <div
               style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
             >
-              <IconButton
-                style={{ height: 32, width: 32 }}
-                onClick={() => console.log('pause')}
-              >
-                <Icon style={{ fontSize: 24 }}>pause</Icon>
-              </IconButton>
+              <Typography variant="subheading" style={{ marginRight: 8 }}>
+                {this.props.print.steps[this.props.print.activeStep]}
+              </Typography>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
