@@ -2,9 +2,8 @@ import { connect } from 'react-redux'
 import PrintHead from '../pres/PrintHead'
 
 const mapStateToProps = state => ({
-  x: state.position.x,
-  y: state.position.y,
-  z: state.position.z
+  ...state.position,
+  breakpoint: state.breakpoint
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -13,13 +13,13 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import moment from 'moment'
 import { shortEnHumanizer } from '../../utils/durations'
+import './styles.css'
+import { setClass } from '../../utils/responsive'
 
 const styles = {
   card: {
     display: 'flex',
-    flexDirection: 'column',
-    margin: 8,
-    flex: 1
+    flexDirection: 'column'
   },
   cardContent: {},
   content: {
@@ -95,7 +95,16 @@ class Files extends Component {
 
   render() {
     return (
-      <Card style={styles.card}>
+      <Card
+        style={styles.card}
+        className={setClass(
+          {
+            tabletLg: 'files-medium',
+            mobileLg: 'files-small'
+          },
+          this.props.breakpoint
+        )}
+      >
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Files</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

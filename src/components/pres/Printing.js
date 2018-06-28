@@ -7,14 +7,13 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ProgressPrinting from '../cont/ProgressPrinting'
 import StepperPrinting from '../cont/StepperPrinting'
+import { setClass } from '../../utils/responsive'
 
 const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 400,
-    margin: 8,
-    flex: 1
+    minWidth: 500
   },
   cardContent: {},
   content: {},
@@ -217,7 +216,16 @@ class Printing extends Component {
 
   render() {
     return (
-      <Card style={styles.card}>
+      <Card
+        style={styles.card}
+        className={setClass(
+          {
+            tabletLg: 'printing-medium',
+            mobileLg: 'printing-small'
+          },
+          this.props.breakpoint
+        )}
+      >
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Printing</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

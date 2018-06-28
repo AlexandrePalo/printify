@@ -3,7 +3,8 @@ import Files from '../pres/Files'
 
 const mapStateToProps = state => ({
   byId: state.files.byId,
-  byHash: state.files.byHash
+  byHash: state.files.byHash,
+  breakpoint: state.breakpoint
 })
 
 const mapDispatchToProps = dispatch => ({

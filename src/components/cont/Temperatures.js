@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = state => ({
   bed: state.temperatures.bed,
-  extruder: state.temperatures.extruder
+  extruder: state.temperatures.extruder,
+  breakpoint: state.breakpoint
 })
 
 const mapDispatchToProps = dispatch => ({

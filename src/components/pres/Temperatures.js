@@ -13,6 +13,8 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import './styles.css'
+import { setClass } from '../../utils/responsive'
 
 import { fp1 } from '../../utils/numbers'
 
@@ -21,9 +23,7 @@ import { fp1 } from '../../utils/numbers'
 const styles = {
   card: {
     display: 'flex',
-    flexDirection: 'column',
-    margin: 8,
-    flex: 1
+    flexDirection: 'column'
   },
   cardContent: {},
   content: {
@@ -230,7 +230,16 @@ class Temperatures extends Component {
 
   render() {
     return (
-      <Card style={styles.card}>
+      <Card
+        style={styles.card}
+        className={setClass(
+          {
+            tabletLg: 'temperatures-medium',
+            mobileLg: 'temperatures-small'
+          },
+          this.props.breakpoint
+        )}
+      >
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Temperatures</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

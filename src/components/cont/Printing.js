@@ -32,7 +32,8 @@ const resumePrinting = () => dispatch => {
 }
 
 const mapStateToProps = state => ({
-  ...state.print
+  ...state.print,
+  breakpoint: state.breakpoint
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,0 +1,19 @@
+.files-medium {
+  margin: 16px 16px 0 16px;
+  align-self: stretch;
+}
+
+.printing-medium {
+  margin: 0 16px 0 16px;
+  align-self: stretch;
+}
+
+.printhead-medium {
+  margin: 0 16px 0 16px;
+  align-self: stretch;
+}
+
+.temperatures-medium {
+  margin: 16px 16px 0 16px;
+  align-self: stretch;
+}

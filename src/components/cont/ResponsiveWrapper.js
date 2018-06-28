@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { breakpoints } from '../../utils/responsive'
 
@@ -42,7 +42,7 @@ class ResponsiveWrapper extends Component {
   }
 
   render() {
-    return <div>{this.props.children}</div>
+    return <Fragment>{this.props.children}</Fragment>
   }
 }
 
