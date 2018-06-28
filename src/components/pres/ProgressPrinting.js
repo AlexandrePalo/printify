@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
-import humanizeDuration from 'humanize-duration'
+import { shortEnHumanizer } from '../../utils/durations'
 
 class ProgressPrinting extends Component {
   getCurrentPercentage() {
@@ -29,9 +29,10 @@ class ProgressPrinting extends Component {
               Elapsed
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              {humanizeDuration(this.props.current * 1000, {
-                language: 'en',
+              {shortEnHumanizer(this.props.current * 1000, {
+                language: 'shortEn',
                 units: ['h', 'm', 's'],
+                delimiter: ' ',
                 round: true
               }) +
                 ' ' +
@@ -50,9 +51,10 @@ class ProgressPrinting extends Component {
               Total
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              {humanizeDuration(this.props.file.duration * 1000, {
-                language: 'en',
+              {shortEnHumanizer(this.props.file.duration * 1000, {
+                language: 'shortEn',
                 units: ['h', 'm', 's'],
+                delimiter: ' ',
                 round: true
               })}
             </Typography>

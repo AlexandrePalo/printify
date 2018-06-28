@@ -12,7 +12,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import moment from 'moment'
-import humanizeDuration from 'humanize-duration'
+import { shortEnHumanizer } from '../../utils/durations'
 
 const styles = {
   card: {
@@ -54,9 +54,10 @@ class Files extends Component {
                 {this.props.byHash[id].name}
               </TableCell>
               <TableCell component="th" scope="row" numeric>
-                {humanizeDuration(this.props.byHash[id].duration * 1000, {
-                  language: 'en',
-                  units: ['h', 'm'],
+                {shortEnHumanizer(this.props.byHash[id].duration * 1000, {
+                  language: 'shortEn',
+                  units: ['h', 'm', 's'],
+                  delimiter: ' ',
                   round: true
                 })}
               </TableCell>
