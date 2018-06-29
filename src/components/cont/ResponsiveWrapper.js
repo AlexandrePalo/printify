@@ -21,7 +21,7 @@ class ResponsiveWrapper extends Component {
       const query = window.matchMedia(`(max-width: ${breakpoints[key]}px)`)
       query.breakpoint = breakpoints[key]
       query.name = key
-      function breakpointChange() {
+      const breakpointChange = () => {
         this.dispatchActiveQuery()
       }
       query.addListener(breakpointChange.bind(this))

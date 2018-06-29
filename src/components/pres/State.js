@@ -13,7 +13,7 @@ const styles = {
   card: {
     display: 'flex',
     flexDirection: 'column',
-    minWidth: 300
+    minWidth: 500
   },
   cardContent: {},
   content: {
@@ -58,121 +58,87 @@ const styles = {
 }
 
 class State extends Component {
+  componentWillMount() {
+    this.props.getAvailablePorts()
+  }
+
   renderContent() {
-    const { connected } = this.props
-    if (connected) {
-      return (
-        <Fragment>
-          <div
-            style={{
-              display: 'flex',
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexDirection: 'row'
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flex: 1
+        }}
+      >
+        <FormControl>
+          <InputLabel htmlFor="port">Port</InputLabel>
+          <Select
+            value={this.props.port}
+            onChange={e => this.props.setPort(e.target.value)}
+            inputProps={{
+              name: 'port',
+              id: 'port'
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                flexDirection: 'column'
-              }}
-            >
-              <Typography variant="body1" color="textSecondary">
-                Port serie {this.props.port}
-              </Typography>
-              <Typography variant="body1" color="textSecondary">
-                Baud rate {this.props.baudRate} bits/s
-              </Typography>
-            </div>
-            <Typography variant="body1" color="textSecondary">
-              Connected
-            </Typography>
-          </div>
-        </Fragment>
-      )
-    } else {
-      if (this.props.connecting) {
-        // loading
-      } else {
-        return (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flex: 1
+            {this.props.ports.map((p, i) => (
+              <MenuItem key={i} value={i}>
+                {p}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel htmlFor="port">Baud rate</InputLabel>
+          <Select
+            value={this.props.baudRate}
+            onChange={e => this.props.setBaudRate(e.target.value)}
+            inputProps={{
+              name: 'baudRate',
+              id: 'baudRate'
             }}
           >
-            <FormControl>
-              <InputLabel htmlFor="port">Port</InputLabel>
-              <Select
-                value={this.props.port}
-                onChange={e => this.props.setPort(e.target.value)}
-                inputProps={{
-                  name: 'port',
-                  id: 'port'
-                }}
-              >
-                <MenuItem value={0}>serie 0</MenuItem>
-                <MenuItem value={1}>serie 1</MenuItem>
-                <MenuItem value={2}>serie 2</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="port">Baud rate</InputLabel>
-              <Select
-                value={this.props.baudRate}
-                onChange={e => this.props.setBaudRate(e.target.value)}
-                inputProps={{
-                  name: 'baudRate',
-                  id: 'baudRate'
-                }}
-              >
-                <MenuItem value={124000}>124000</MenuItem>
-                <MenuItem value={172000}>172000</MenuItem>
-                <MenuItem value={200000}>200000</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-        )
-      }
-    }
+            <MenuItem value={124000}>124000</MenuItem>
+            <MenuItem value={172000}>172000</MenuItem>
+            <MenuItem value={200000}>200000</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+    )
   }
 
   renderActions() {
-    const { connected } = this.props
-    if (connected) {
+    return (
+      <Button
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() =>
+          this.props.connect(
+            this.props.ports[this.props.port],
+            this.props.baudRate
+          )
+        }
+      >
+        Connect
+      </Button>
+    )
+  }
+
+  render() {
+    if (this.props.connecting || this.props.fetchingPorts) {
       return (
-        <Button
-          size="small"
-          variant="contained"
-          color="secondary"
-          onClick={() => this.props.disconnect()}
-        >
-          Disconnect
-        </Button>
-      )
-    } else {
-      return (
-        <Button
-          size="small"
-          variant="contained"
-          color="primary"
-          onClick={() =>
-            this.props.connect(this.props.port, this.props.baudRate)
-          }
-        >
-          Connect
-        </Button>
+        <Card style={styles.card}>
+          <CardContent style={styles.cardContent}>
+            <Typography variant="headline">Loading</Typography>
+          </CardContent>
+        </Card>
       )
     }
-  }
-  render() {
     return (
       <Card style={styles.card}>
         <CardContent style={styles.cardContent}>
-          <Typography variant="headline">Printer state</Typography>
+          <Typography variant="headline">Connect to printer</Typography>
           <div style={styles.content}>{this.renderContent()}</div>
         </CardContent>
         <CardActions>{this.renderActions()}</CardActions>

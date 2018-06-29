@@ -3,7 +3,8 @@ import Header from '../pres/Header'
 
 const mapStateToProps = state => ({
   temperatures: state.temperatures,
-  print: state.print
+  print: state.print,
+  name: state.login.user.name
 })
 
 const mapDispatchToProps = dispatch => ({})

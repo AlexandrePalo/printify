@@ -22,56 +22,74 @@ class Header extends Component {
               Printify
             </Typography>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div
-              style={{ display: 'flex', alignItems: 'center', marginRight: 16 }}
-            >
-              <Typography variant="subheading">
-                FR {this.props.print.feedRate}%
-              </Typography>
-            </div>
+          {this.props.connected && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Icon style={{ fontSize: 24, marginRight: 8 }}>
-                vertical_align_bottom
-              </Icon>
-              <Typography variant="subheading">
-                {this.props.temperatures.extruder.current}°C
-              </Typography>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginRight: 16
+                }}
+              >
+                <Typography variant="subheading">
+                  FR {this.props.print.feedRate}%
+                </Typography>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Icon style={{ fontSize: 24, marginRight: 8 }}>
+                  vertical_align_bottom
+                </Icon>
+                <Typography variant="subheading">
+                  {this.props.temperatures.extruder.current}°C
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: 16
+                }}
+              >
+                <Icon style={{ fontSize: 24, marginRight: 8 }}>space_bar</Icon>
+                <Typography variant="subheading">
+                  {this.props.temperatures.bed.current}°C
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: 16
+                }}
+              >
+                <Icon style={{ fontSize: 24, marginRight: 8 }}>printer</Icon>
+                <Typography variant="subheading" style={{ marginRight: 8 }}>
+                  {this.props.print.file.name}
+                </Typography>
+                <Typography variant="subheading">
+                  {Math.round(
+                    this.props.print.current /
+                      this.props.print.file.duration *
+                      100,
+                    2
+                  )}%
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: 16
+                }}
+              >
+                <Typography variant="subheading" style={{ marginRight: 8 }}>
+                  {this.props.print.steps[this.props.print.activeStep]}
+                </Typography>
+              </div>
             </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
-            >
-              <Icon style={{ fontSize: 24, marginRight: 8 }}>space_bar</Icon>
-              <Typography variant="subheading">
-                {this.props.temperatures.bed.current}°C
-              </Typography>
-            </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
-            >
-              <Icon style={{ fontSize: 24, marginRight: 8 }}>printer</Icon>
-              <Typography variant="subheading" style={{ marginRight: 8 }}>
-                {this.props.print.file.name}
-              </Typography>
-              <Typography variant="subheading">
-                {Math.round(
-                  this.props.print.current /
-                    this.props.print.file.duration *
-                    100,
-                  2
-                )}%
-              </Typography>
-            </div>
-            <div
-              style={{ display: 'flex', alignItems: 'center', marginLeft: 16 }}
-            >
-              <Typography variant="subheading" style={{ marginRight: 8 }}>
-                {this.props.print.steps[this.props.print.activeStep]}
-              </Typography>
-            </div>
-          </div>
+          )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="subheading">Alexandre PALO</Typography>
+            <Typography variant="subheading">{this.props.name}</Typography>
             <IconButton
               style={{ height: 32, width: 32, marginLeft: 16 }}
               onClick={() => console.log('account')}
