@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import Files from '../pres/Files'
+import { getFiles } from '../../redux/actions/files'
 
 const mapStateToProps = state => ({
-  byId: state.files.byId,
-  byHash: state.files.byHash,
-  breakpoint: state.breakpoint
+  breakpoint: state.breakpoint,
+  ...state.files
 })
 
 const mapDispatchToProps = dispatch => ({
+  getFiles: dir => dispatch(getFiles(dir)),
   deleteFile: id =>
     dispatch({
       type: 'DELETE_FILE',

@@ -1,6 +1,8 @@
 import moment from 'moment'
 
 const initial = {
+  fetching: false,
+  dir: '/Users/alexandrepalo/software/printify-api/public/3D',
   byId: [1, 2, 3],
   byHash: {
     1: {
@@ -26,6 +28,23 @@ const initial = {
 
 const filesReducer = (state = initial, action) => {
   switch (action.type) {
+    case 'GET_FILES':
+      if (action.payload.fetching) {
+        return { ...state, fetching: true }
+      }
+
+      let nbyId = action.payload.files.map((f, i) => i)
+      let nbyHash = {}
+      action.payload.files.forEach((f, i) => {
+        nbyHash[i] = f
+      })
+      return {
+        ...state,
+        fetching: false,
+        byId: nbyId,
+        byHash: nbyHash
+      }
+
     case 'ADD_FILE':
       return {
         ...state,

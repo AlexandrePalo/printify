@@ -3,7 +3,7 @@ const initial = {
   fetchingPorts: false,
   port: 1,
   baudRate: 124000,
-  connected: false,
+  connected: true,
   connecting: false
 }
 

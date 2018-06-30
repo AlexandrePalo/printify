@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
@@ -34,6 +34,10 @@ const styles = {
 }
 
 class Files extends Component {
+  componentWillMount() {
+    this.props.getFiles(this.props.dir)
+  }
+
   renderContent() {
     return (
       <Table>
@@ -87,13 +91,40 @@ class Files extends Component {
 
   renderActions() {
     return (
-      <Button size="small" onClick={() => console.log('add file')}>
-        Add file
-      </Button>
+      <Fragment>
+        <Button size="small" onClick={() => console.log('add file')}>
+          Add file
+        </Button>
+        <Button
+          size="small"
+          onClick={() => this.props.getFiles(this.props.dir)}
+        >
+          Refresh
+        </Button>
+      </Fragment>
     )
   }
 
   render() {
+    if (this.props.fetching) {
+      return (
+        <Card
+          style={styles.card}
+          className={setClass(
+            {
+              tabletLg: 'files-medium',
+              mobileLg: 'files-small'
+            },
+            this.props.breakpoint
+          )}
+        >
+          <CardContent style={styles.cardContent}>
+            <Typography variant="headline">Loading</Typography>
+          </CardContent>
+        </Card>
+      )
+    }
+
     return (
       <Card
         style={styles.card}

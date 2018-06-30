@@ -92,7 +92,7 @@ class Header extends Component {
             <Typography variant="subheading">{this.props.name}</Typography>
             <IconButton
               style={{ height: 32, width: 32, marginLeft: 16 }}
-              onClick={() => console.log('account')}
+              onClick={() => this.props.logout()}
             >
               <Icon style={{ fontSize: 24 }}>account_circle</Icon>
             </IconButton>
