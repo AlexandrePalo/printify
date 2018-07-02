@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Files from '../pres/Files'
-import { getFiles } from '../../redux/actions/files'
+import { getFiles, deleteFile } from '../../redux/actions/files'
 
 const mapStateToProps = state => ({
   breakpoint: state.breakpoint,
@@ -9,11 +9,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getFiles: dir => dispatch(getFiles(dir)),
-  deleteFile: id =>
-    dispatch({
-      type: 'DELETE_FILE',
-      payload: { id }
-    }),
+  deleteFile: (id, path) => dispatch(deleteFile(id, path)),
   setPrintedFile: file =>
     dispatch({ type: 'SET_PRINTED_FILE', payload: { file } })
 })

@@ -11,6 +11,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import moment from 'moment'
 import { shortEnHumanizer } from '../../utils/durations'
 import './styles.css'
@@ -67,20 +68,28 @@ class Files extends Component {
                 })}
               </TableCell>
               <TableCell component="th" scope="row">
-                <IconButton
-                  style={{ height: 24, width: 24 }}
-                  onClick={() =>
-                    this.props.setPrintedFile(this.props.byHash[id])
-                  }
-                >
-                  <Icon style={{ fontSize: 16 }}>print</Icon>
-                </IconButton>
-                <IconButton
-                  style={{ height: 24, width: 24 }}
-                  onClick={() => this.props.deleteFile(id)}
-                >
-                  <Icon style={{ fontSize: 16 }}>delete</Icon>
-                </IconButton>
+                {this.props.byHash[id].loading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  <Fragment>
+                    <IconButton
+                      style={{ height: 24, width: 24 }}
+                      onClick={() =>
+                        this.props.setPrintedFile(this.props.byHash[id])
+                      }
+                    >
+                      <Icon style={{ fontSize: 16 }}>print</Icon>
+                    </IconButton>
+                    <IconButton
+                      style={{ height: 24, width: 24 }}
+                      onClick={() =>
+                        this.props.deleteFile(id, this.props.byHash[id].path)
+                      }
+                    >
+                      <Icon style={{ fontSize: 16 }}>delete</Icon>
+                    </IconButton>
+                  </Fragment>
+                )}
               </TableCell>
             </TableRow>
           ))}

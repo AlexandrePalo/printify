@@ -6,7 +6,7 @@ const getFiles = dir => {
     dispatch({ type: 'GET_FILES', payload: { fetching: true } })
     const query = `mutation($dir: String) {
       readDir(dir: $dir) {
-        name duration date
+        path duration date
       }
     }`
     const gqlc = new GraphQLClient(endpoint, {
@@ -26,4 +26,30 @@ const getFiles = dir => {
   }
 }
 
-export { getFiles }
+const deleteFile = (id, path) => {
+  return dispatch => {
+    dispatch({ type: 'DELETE_FILE', payload: { id, fetching: true } })
+
+    const query = `mutation($path: String) {
+      deleteFile(path: $path) {
+        path
+      }
+    }`
+    const gqlc = new GraphQLClient(endpoint, {
+      headers: { authorization: 'Bearer ' + sessionStorage.jwt }
+    })
+    gqlc
+      .request(query, { path })
+      .then(data => {
+        dispatch({ type: 'DELETE_FILE', payload: { id } })
+      })
+      .catch(err => {
+        dispatch({
+          type: 'DELETE_FILE',
+          payload: { error: true, message: 'Error during deleting file', id }
+        })
+      })
+  }
+}
+
+export { getFiles, deleteFile }
