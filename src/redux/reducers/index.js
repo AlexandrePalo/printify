@@ -6,6 +6,7 @@ import statusReducer from './status'
 import filesReducer from './files'
 import breakpointReducer from './breakpoint'
 import loginReducer from './login'
+import errorsReducer from './errors'
 
 const main = combineReducers({
   status: statusReducer,
@@ -14,7 +15,8 @@ const main = combineReducers({
   print: printReducer,
   files: filesReducer,
   breakpoint: breakpointReducer,
-  login: loginReducer
+  login: loginReducer,
+  errors: errorsReducer
 })
 
 export default main

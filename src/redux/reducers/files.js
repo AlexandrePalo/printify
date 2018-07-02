@@ -1,29 +1,9 @@
-import moment from 'moment'
-
 const initial = {
   fetching: false,
+  error: false,
   dir: '/Users/alexandrepalo/software/printify-api/public/3D',
-  byId: [1, 2, 3],
-  byHash: {
-    1: {
-      id: 1,
-      name: 'Cat low poly',
-      duration: 100,
-      date: moment('2018-01-19').toISOString()
-    },
-    2: {
-      id: 2,
-      name: 'Gears 20x30',
-      duration: 3987,
-      date: moment('2018-06-24').toISOString()
-    },
-    3: {
-      id: 3,
-      name: 'Flower pot',
-      duration: 28109,
-      date: moment('2018-06-20').toISOString()
-    }
-  }
+  byId: [],
+  byHash: {}
 }
 
 const filesReducer = (state = initial, action) => {
@@ -31,6 +11,13 @@ const filesReducer = (state = initial, action) => {
     case 'GET_FILES':
       if (action.payload.fetching) {
         return { ...state, fetching: true }
+      }
+      if (action.payload.error) {
+        return {
+          ...state,
+          fetching: false,
+          error: true
+        }
       }
 
       let nbyId = action.payload.files.map((f, i) => i)
