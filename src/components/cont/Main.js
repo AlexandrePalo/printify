@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import IconButton from '@material-ui/core/IconButton'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Icon from '@material-ui/core/Icon'
 import Print from '../scenes/Print'
 import Manual from '../scenes/Manual'
@@ -47,7 +48,7 @@ class Main extends Component {
             justifyContent: 'center'
           }}
         >
-          <h1>Loading reloading</h1>
+          <CircularProgress size={64} />
         </div>
       )
     }
@@ -141,4 +142,7 @@ class Main extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main)
