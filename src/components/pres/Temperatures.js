@@ -230,16 +230,7 @@ class Temperatures extends Component {
 
   render() {
     return (
-      <Card
-        style={styles.card}
-        className={setClass(
-          {
-            tabletLg: 'temperatures-medium',
-            mobileLg: 'temperatures-small'
-          },
-          this.props.breakpoint
-        )}
-      >
+      <Card style={styles.card}>
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Temperatures</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

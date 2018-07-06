@@ -1,31 +1,19 @@
 .printing-tab-large {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  flex: 1;
-  align-items: center;
 }
 
 .printing-tab-medium {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  flex: 1;
-  align-items: center;
 }
 
 .control-tab-large {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  flex: 1;
-  align-items: center;
 }
 
 .control-tab-medium {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  flex: 1;
-  align-items: center;
 }

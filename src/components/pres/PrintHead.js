@@ -491,8 +491,9 @@ class PrintHead extends Component {
         style={styles.card}
         className={setClass(
           {
-            tabletLg: 'printhead-medium',
-            mobileLg: 'printhead-small'
+            desktopMd: 'printhead-lg',
+            tabletMd: 'printhead-md',
+            mobileMd: 'printhead-sm'
           },
           this.props.breakpoint
         )}

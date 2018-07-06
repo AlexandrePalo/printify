@@ -19,10 +19,10 @@ import { setClass } from '../../utils/responsive'
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column'
   },
-  cardContent: {},
   content: {
     display: 'flex',
     flexDirection: 'row',
@@ -44,22 +44,24 @@ class Files extends Component {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell numeric>Duration</TableCell>
-            <TableCell numeric>Actions</TableCell>
+            <TableCell padding="none" style={{ padding: 30 }}>
+              Date
+            </TableCell>
+            <TableCell padding="none">Name</TableCell>
+            <TableCell padding="none">Duration</TableCell>
+            <TableCell padding="none">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {this.props.byId.map(id => (
             <TableRow key={id}>
-              <TableCell component="th" scope="row">
+              <TableCell padding="none" component="th" scope="row">
                 {moment(this.props.byHash[id].date).format('DD/MM/YY')}
               </TableCell>
-              <TableCell component="th" scope="row">
+              <TableCell padding="none" component="th" scope="row">
                 {this.props.byHash[id].name}
               </TableCell>
-              <TableCell component="th" scope="row" numeric>
+              <TableCell padding="none" component="th" scope="row">
                 {shortEnHumanizer(this.props.byHash[id].duration * 1000, {
                   language: 'shortEn',
                   units: ['h', 'm', 's'],
@@ -67,7 +69,7 @@ class Files extends Component {
                   round: true
                 })}
               </TableCell>
-              <TableCell component="th" scope="row">
+              <TableCell padding="none" component="th" scope="row">
                 {this.props.byHash[id].loading ? (
                   <CircularProgress size={24} />
                 ) : (
@@ -115,41 +117,20 @@ class Files extends Component {
   }
 
   render() {
-    if (this.props.fetching) {
-      return (
-        <Card
-          style={styles.card}
-          className={setClass(
-            {
-              tabletLg: 'files-medium',
-              mobileLg: 'files-small'
-            },
-            this.props.breakpoint
-          )}
-        >
-          <CardContent style={styles.cardContent}>
-            <Typography variant="headline">Loading</Typography>
-          </CardContent>
-        </Card>
-      )
-    }
-
     return (
-      <Card
-        style={styles.card}
-        className={setClass(
-          {
-            tabletLg: 'files-medium',
-            mobileLg: 'files-small'
-          },
-          this.props.breakpoint
+      <Card style={styles.card}>
+        {this.props.fetching && (
+          <div className="overlay loading">
+            <CircularProgress size={32} thickness={4} />
+          </div>
         )}
-      >
-        <CardContent style={styles.cardContent}>
+        <CardContent className={this.props.fetching && 'blurred'}>
           <Typography variant="headline">Files</Typography>
           <div style={styles.content}>{this.renderContent()}</div>
         </CardContent>
-        <CardActions>{this.renderActions()}</CardActions>
+        <CardActions className={this.props.fetching && 'blurred'}>
+          {this.renderActions()}
+        </CardActions>
       </Card>
     )
   }

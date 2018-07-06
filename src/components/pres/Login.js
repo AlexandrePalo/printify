@@ -5,9 +5,11 @@ import CardActions from '@material-ui/core/CardActions'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     minWidth: 300
@@ -78,22 +80,23 @@ class Login extends Component {
   }
 
   render() {
-    if (this.props.logging) {
-      return (
-        <Card style={styles.card}>
-          <CardContent style={styles.cardContent}>
-            <Typography variant="headline">Loading</Typography>
-          </CardContent>
-        </Card>
-      )
-    }
     return (
       <Card style={styles.card}>
-        <CardContent style={styles.cardContent}>
+        {this.props.logging && (
+          <div className="overlay loading">
+            <CircularProgress size={32} thickness={4} />
+          </div>
+        )}
+        <CardContent
+          style={styles.cardContent}
+          className={this.props.logging && 'blurred'}
+        >
           <Typography variant="headline">Printify</Typography>
           <div style={styles.content}>{this.renderContent()}</div>
         </CardContent>
-        <CardActions>{this.renderActions()}</CardActions>
+        <CardActions className={this.props.logging && 'blurred'}>
+          {this.renderActions()}
+        </CardActions>
       </Card>
     )
   }

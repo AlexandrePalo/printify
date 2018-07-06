@@ -1,19 +1,19 @@
-.files-medium {
-  margin: 16px 16px 0 16px;
-  align-self: stretch;
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.printing-medium {
-  margin: 0 16px 0 16px;
-  align-self: stretch;
-}
-
-.printhead-medium {
-  margin: 0 16px 0 16px;
-  align-self: stretch;
-}
-
-.temperatures-medium {
-  margin: 16px 16px 0 16px;
-  align-self: stretch;
+.blurred {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
 }

@@ -12,8 +12,7 @@ import { setClass } from '../../utils/responsive'
 const styles = {
   card: {
     display: 'flex',
-    flexDirection: 'column',
-    minWidth: 500
+    flexDirection: 'column'
   },
   cardContent: {},
   content: {},
@@ -216,16 +215,7 @@ class Printing extends Component {
 
   render() {
     return (
-      <Card
-        style={styles.card}
-        className={setClass(
-          {
-            tabletLg: 'printing-medium',
-            mobileLg: 'printing-small'
-          },
-          this.props.breakpoint
-        )}
-      >
+      <Card style={styles.card}>
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Printing</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
+import Grid from '@material-ui/core/Grid'
 import Files from '../cont/Files'
 import Printing from '../cont/Printing'
 import Temperatures from '../cont/Temperatures'
@@ -9,6 +10,7 @@ import PrintHead from '../cont/PrintHead'
 import Header from '../cont/Header'
 import { setClass } from '../../utils/responsive'
 import './Manual.css'
+import '../../simple-grid.css'
 
 class Manual extends Component {
   state = {
@@ -21,37 +23,27 @@ class Manual extends Component {
 
   renderPrintingTab() {
     return (
-      <div
-        className={setClass(
-          {
-            default: 'printing-tab-large',
-            tabletLg: 'printing-tab-medium',
-            mobileLg: 'printing-tab-small'
-          },
-          this.props.breakpoint
-        )}
-      >
-        <Printing />
-        <Files />
-      </div>
+      <Grid container spacing={16} justify="center" style={{ marginTop: 16 }}>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
+          <Printing />
+        </Grid>
+        <Grid item xs={12} sm={12} md={7} lg={7}>
+          <Files />
+        </Grid>
+      </Grid>
     )
   }
 
   renderControlTab() {
     return (
-      <div
-        className={setClass(
-          {
-            default: 'control-tab-large',
-            tabletLg: 'control-tab-medium',
-            mobileLg: 'control-tab-small'
-          },
-          this.props.breakpoint
-        )}
-      >
-        <PrintHead />
-        <Temperatures />
-      </div>
+      <Grid container spacing={16} justify="center" style={{ marginTop: 16 }}>
+        <Grid item xs={12} sm={12} md={8} lg={7}>
+          <PrintHead />
+        </Grid>
+        <Grid item xs={12} sm={12} md={8} lg={4}>
+          <Temperatures />
+        </Grid>
+      </Grid>
     )
   }
 
@@ -59,23 +51,19 @@ class Manual extends Component {
     return (
       <Fragment>
         <Header />
-        <div
-          style={{ display: 'flex', flexDirection: 'column', height: '90%' }}
+        <Tabs
+          value={this.state.activeTab}
+          onChange={this.handleChangeTab}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          style={{ marginTop: 8 }}
         >
-          <Tabs
-            value={this.state.activeTab}
-            onChange={this.handleChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            style={{ marginTop: 8, marginBottom: 8 }}
-          >
-            <Tab label="Printing" />
-            <Tab label="Control" />
-          </Tabs>
-          {this.state.activeTab === 0 && this.renderPrintingTab()}
-          {this.state.activeTab === 1 && this.renderControlTab()}
-        </div>
+          <Tab label="Printing" />
+          <Tab label="Control" />
+        </Tabs>
+        {this.state.activeTab === 0 && this.renderPrintingTab()}
+        {this.state.activeTab === 1 && this.renderControlTab()}
       </Fragment>
     )
   }
