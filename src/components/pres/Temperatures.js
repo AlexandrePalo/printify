@@ -13,12 +13,11 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import './styles.css'
 import { setClass } from '../../utils/responsive'
 
 import { fp1 } from '../../utils/numbers'
-
-// TODO: externalize state function and temperature values
 
 const styles = {
   card: {
@@ -51,6 +50,15 @@ class Temperatures extends Component {
     let target = this.props[probe].target
       ? this.props[probe].target
       : this.props[probe].current
+
+    if (this.props[probe].fetchingTarget) {
+      return (
+        <TableCell component="th" scope="row" numeric>
+          <CircularProgress size={14} />
+        </TableCell>
+      )
+    }
+
     if (this.state[probe].set) {
       return (
         <TableCell component="th" scope="row">
@@ -102,73 +110,73 @@ class Temperatures extends Component {
           </div>
         </TableCell>
       )
-    } else {
-      if (this.props[probe].target) {
-        return (
-          <TableCell component="th" scope="row">
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <Icon style={{ fontSize: 16 }}>flash_on</Icon>
-              <Typography variant="body1" color="textSecondary">
-                {fp1(this.props[probe].target)}
-              </Typography>
-              <IconButton
-                style={{ height: 24, width: 24, marginLeft: 8 }}
-                onClick={() =>
-                  this.setState({
-                    [probe]: {
-                      set: true
-                    }
-                  })
-                }
-              >
-                <Icon style={{ fontSize: 16 }}>edit</Icon>
-              </IconButton>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() => {
-                  this.props.setTemperatureTarget(probe, null)
-                }}
-              >
-                <Icon style={{ fontSize: 16 }}>clear</Icon>
-              </IconButton>
-            </div>
-          </TableCell>
-        )
-      } else {
-        return (
-          <TableCell component="th" scope="row">
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() =>
-                  this.setState({
-                    [probe]: {
-                      set: true
-                    }
-                  })
-                }
-              >
-                <Icon style={{ fontSize: 16 }}>edit</Icon>
-              </IconButton>
-            </div>
-          </TableCell>
-        )
-      }
     }
+
+    if (this.props[probe].target) {
+      return (
+        <TableCell component="th" scope="row">
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}
+          >
+            <Icon style={{ fontSize: 16 }}>flash_on</Icon>
+            <Typography variant="body1" color="textSecondary">
+              {fp1(this.props[probe].target)}
+            </Typography>
+            <IconButton
+              style={{ height: 24, width: 24, marginLeft: 8 }}
+              onClick={() =>
+                this.setState({
+                  [probe]: {
+                    set: true
+                  }
+                })
+              }
+            >
+              <Icon style={{ fontSize: 16 }}>edit</Icon>
+            </IconButton>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() => {
+                this.props.setTemperatureTarget(probe, null)
+              }}
+            >
+              <Icon style={{ fontSize: 16 }}>clear</Icon>
+            </IconButton>
+          </div>
+        </TableCell>
+      )
+    }
+
+    return (
+      <TableCell component="th" scope="row">
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <IconButton
+            style={{ height: 24, width: 24 }}
+            onClick={() =>
+              this.setState({
+                [probe]: {
+                  set: true
+                }
+              })
+            }
+          >
+            <Icon style={{ fontSize: 16 }}>edit</Icon>
+          </IconButton>
+        </div>
+      </TableCell>
+    )
   }
 
   renderContent() {

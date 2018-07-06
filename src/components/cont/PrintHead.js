@@ -1,5 +1,11 @@
 import { connect } from 'react-redux'
 import PrintHead from '../pres/PrintHead'
+import {
+  enableAxisStepper,
+  disableAxisStepper,
+  goToAxisHome,
+  goToAxisPosition
+} from '../../redux/actions/control'
 
 const mapStateToProps = state => ({
   ...state.position,
@@ -7,16 +13,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  enableStepper: axis =>
-    dispatch({
-      type: 'ENABLE_AXIS_STEPPER',
-      payload: { axis }
-    }),
-  disableStepper: axis =>
-    dispatch({
-      type: 'DISABLE_AXIS_STEPPER',
-      payload: { axis }
-    }),
+  enableStepper: axis => dispatch(enableAxisStepper(axis)),
+  disableStepper: axis => dispatch(disableAxisStepper(axis)),
   setPositionTarget: (axis, value) =>
     dispatch({
       type: 'SET_POSITION_TARGET',
@@ -27,9 +25,11 @@ const mapDispatchToProps = dispatch => ({
       type: 'SET_AXIS_SPEED',
       payload: { axis, value }
     }),
-  goToHome: axis => dispatch({ type: 'GO_TO_AXIS_HOME', payload: { axis } }),
-  goToPosition: (axis, value) =>
-    dispatch({ type: 'GO_TO_AXIS_POSITION', payload: { axis, value } })
+  goToHome: axis => dispatch(goToAxisHome(axis)),
+  goToPosition: (axis, value) => dispatch(goToAxisPosition(axis, value))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrintHead)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PrintHead)

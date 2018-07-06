@@ -13,6 +13,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import './styles.css'
 import { setClass } from '../../utils/responsive'
 
@@ -76,19 +77,52 @@ class PrintHead extends Component {
     let target = this.props[a].target
       ? this.props[a].target
       : this.props[a].current
+
+    if (this.props[a].fetchingPosition) {
+      return (
+        <TableCell numeric>
+          <CircularProgress size={14} />
+        </TableCell>
+      )
+    }
+
     if (this.state[a].set) {
       return (
         <TableCell numeric>
-          <div
+          <form
             style={{
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'flex-end'
             }}
+            onSubmit={() => {
+              this.setState({
+                [a]: {
+                  ...this.state[a],
+                  set: false
+                }
+              })
+              this.props.setPositionTarget(a, target)
+            }}
           >
-            <form
-              onSubmit={() => {
+            <FormControl>
+              <Input
+                id={a + 'target'}
+                label="target"
+                onChange={e => {
+                  target = e.target.value
+                }}
+                type="number"
+                inputProps={{ min: 0.0, step: 0.001 }}
+                defaultValue={target}
+                style={{ width: 70, fontSize: 14 }}
+              />
+            </FormControl>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              type="button"
+              onClick={() => {
                 this.setState({
                   [a]: {
                     ...this.state[a],
@@ -98,129 +132,14 @@ class PrintHead extends Component {
                 this.props.setPositionTarget(a, target)
               }}
             >
-              <FormControl>
-                <Input
-                  id={a + 'target'}
-                  label="target"
-                  onChange={e => {
-                    target = e.target.value
-                  }}
-                  type="number"
-                  inputProps={{ min: 0.0, step: 0.001 }}
-                  defaultValue={target}
-                  style={{ width: 70, fontSize: 14 }}
-                />
-              </FormControl>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                type="button"
-                onClick={() => {
-                  this.setState({
-                    [a]: {
-                      ...this.state[a],
-                      set: false
-                    }
-                  })
-                  this.props.setPositionTarget(a, target)
-                }}
-              >
-                <Icon style={{ fontSize: 16 }}>done</Icon>
-              </IconButton>
-            </form>
-          </div>
+              <Icon style={{ fontSize: 16 }}>done</Icon>
+            </IconButton>
+          </form>
         </TableCell>
       )
-    } else {
-      if (this.props[a].target) {
-        return (
-          <TableCell numeric>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <IconButton
-                style={{ height: 24, width: 24, marginRight: 8 }}
-                onClick={() => this.goToTarget(a)}
-              >
-                <Icon style={{ fontSize: 16 }}>compare_arrows</Icon>
-              </IconButton>
-              <Typography variant="body1" color="textSecondary">
-                {fp3(this.props[a].target)}
-              </Typography>
-              <IconButton
-                style={{ height: 24, width: 24, marginLeft: 8 }}
-                onClick={() =>
-                  this.setState({
-                    [a]: {
-                      ...this.state[a],
-                      set: true
-                    }
-                  })
-                }
-              >
-                <Icon style={{ fontSize: 16 }}>edit</Icon>
-              </IconButton>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() => {
-                  this.props.setPositionTarget(a, null)
-                }}
-              >
-                <Icon style={{ fontSize: 16 }}>clear</Icon>
-              </IconButton>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() => this.props.goToHome(a)}
-              >
-                <Icon style={{ fontSize: 16 }}>home</Icon>
-              </IconButton>
-            </div>
-          </TableCell>
-        )
-      } else {
-        return (
-          <TableCell numeric>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-end'
-              }}
-            >
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() =>
-                  this.setState({
-                    [a]: {
-                      ...this.state[a],
-                      set: true
-                    }
-                  })
-                }
-              >
-                <Icon style={{ fontSize: 16 }}>edit</Icon>
-              </IconButton>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                onClick={() => this.props.goToHome(a)}
-              >
-                <Icon style={{ fontSize: 16 }}>home</Icon>
-              </IconButton>
-            </div>
-          </TableCell>
-        )
-      }
     }
-  }
 
-  renderSpeed(a) {
-    let speed = this.props[a].speed
-    if (this.state[a].setSpeed) {
+    if (this.props[a].target) {
       return (
         <TableCell numeric>
           <div
@@ -231,8 +150,120 @@ class PrintHead extends Component {
               justifyContent: 'flex-end'
             }}
           >
-            <form
-              onSubmit={() => {
+            <IconButton
+              style={{ height: 24, width: 24, marginRight: 8 }}
+              onClick={() => this.goToTarget(a)}
+            >
+              <Icon style={{ fontSize: 16 }}>compare_arrows</Icon>
+            </IconButton>
+            <Typography variant="body1" color="textSecondary">
+              {fp3(this.props[a].target)}
+            </Typography>
+            <IconButton
+              style={{ height: 24, width: 24, marginLeft: 8 }}
+              onClick={() =>
+                this.setState({
+                  [a]: {
+                    ...this.state[a],
+                    set: true
+                  }
+                })
+              }
+            >
+              <Icon style={{ fontSize: 16 }}>edit</Icon>
+            </IconButton>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() => {
+                this.props.setPositionTarget(a, null)
+              }}
+            >
+              <Icon style={{ fontSize: 16 }}>clear</Icon>
+            </IconButton>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              onClick={() => this.props.goToHome(a)}
+            >
+              <Icon style={{ fontSize: 16 }}>home</Icon>
+            </IconButton>
+          </div>
+        </TableCell>
+      )
+    }
+
+    return (
+      <TableCell numeric>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
+          }}
+        >
+          <IconButton
+            style={{ height: 24, width: 24 }}
+            onClick={() =>
+              this.setState({
+                [a]: {
+                  ...this.state[a],
+                  set: true
+                }
+              })
+            }
+          >
+            <Icon style={{ fontSize: 16 }}>edit</Icon>
+          </IconButton>
+          <IconButton
+            style={{ height: 24, width: 24 }}
+            onClick={() => this.props.goToHome(a)}
+          >
+            <Icon style={{ fontSize: 16 }}>home</Icon>
+          </IconButton>
+        </div>
+      </TableCell>
+    )
+  }
+
+  renderSpeed(a) {
+    let speed = this.props[a].speed
+    if (this.state[a].setSpeed) {
+      return (
+        <TableCell numeric>
+          <form
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}
+            onSubmit={() => {
+              this.setState({
+                [a]: {
+                  ...this.state[a],
+                  setSpeed: false
+                }
+              })
+              this.props.setSpeed(a, speed)
+            }}
+          >
+            <FormControl>
+              <Input
+                id={a + 'speed'}
+                label="speed"
+                onChange={e => {
+                  speed = e.target.value
+                }}
+                type="number"
+                inputProps={{ min: 0.0, step: 1 }}
+                defaultValue={speed}
+                style={{ width: 70, fontSize: 14 }}
+              />
+            </FormControl>
+            <IconButton
+              style={{ height: 24, width: 24 }}
+              type="button"
+              onClick={() => {
                 this.setState({
                   [a]: {
                     ...this.state[a],
@@ -242,36 +273,9 @@ class PrintHead extends Component {
                 this.props.setSpeed(a, speed)
               }}
             >
-              <FormControl>
-                <Input
-                  id={a + 'speed'}
-                  label="speed"
-                  onChange={e => {
-                    speed = e.target.value
-                  }}
-                  type="number"
-                  inputProps={{ min: 0.0, step: 1 }}
-                  defaultValue={speed}
-                  style={{ width: 70, fontSize: 14 }}
-                />
-              </FormControl>
-              <IconButton
-                style={{ height: 24, width: 24 }}
-                type="button"
-                onClick={() => {
-                  this.setState({
-                    [a]: {
-                      ...this.state[a],
-                      setSpeed: false
-                    }
-                  })
-                  this.props.setSpeed(a, speed)
-                }}
-              >
-                <Icon style={{ fontSize: 16 }}>done</Icon>
-              </IconButton>
-            </form>
-          </div>
+              <Icon style={{ fontSize: 16 }}>done</Icon>
+            </IconButton>
+          </form>
         </TableCell>
       )
     } else {
@@ -308,6 +312,9 @@ class PrintHead extends Component {
   }
 
   renderStepperIndicator(a) {
+    if (this.props[a].fetchingPower) {
+      return <CircularProgress size={14} />
+    }
     if (this.props[a].stepper) {
       return (
         <IconButton
@@ -324,23 +331,22 @@ class PrintHead extends Component {
           </Icon>
         </IconButton>
       )
-    } else {
-      return (
-        <IconButton
-          style={{ height: 24, width: 24 }}
-          onClick={() => this.props.enableStepper(a)}
-        >
-          <Icon
-            style={{
-              fontSize: 16,
-              color: 'rgba(0, 0, 0, 0.32)'
-            }}
-          >
-            flash_off
-          </Icon>
-        </IconButton>
-      )
     }
+    return (
+      <IconButton
+        style={{ height: 24, width: 24 }}
+        onClick={() => this.props.enableStepper(a)}
+      >
+        <Icon
+          style={{
+            fontSize: 16,
+            color: 'rgba(0, 0, 0, 0.32)'
+          }}
+        >
+          flash_off
+        </Icon>
+      </IconButton>
+    )
   }
 
   renderContent() {
