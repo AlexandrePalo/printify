@@ -15,7 +15,6 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import './styles.css'
-import { setClass } from '../../utils/responsive'
 
 import { fp1 } from '../../utils/numbers'
 
@@ -233,7 +232,7 @@ class Temperatures extends Component {
           disabled={fetchingTarget}
           style={{ position: 'relative' }}
         >
-          <span className={fetchingTarget && 'blurred'}>Stop</span>
+          <span className={fetchingTarget ? 'blurred' : ''}>Stop</span>
           {fetchingTarget && (
             <div className="overlay loading">
               <CircularProgress size={14} />

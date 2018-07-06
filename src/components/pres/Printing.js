@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import ProgressPrinting from '../cont/ProgressPrinting'
 import StepperPrinting from '../cont/StepperPrinting'
-import { setClass } from '../../utils/responsive'
 
 const styles = {
   card: {

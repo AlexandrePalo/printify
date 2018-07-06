@@ -8,7 +8,6 @@ import Printing from '../cont/Printing'
 import Temperatures from '../cont/Temperatures'
 import PrintHead from '../cont/PrintHead'
 import Header from '../cont/Header'
-import { setClass } from '../../utils/responsive'
 import './Manual.css'
 import '../../simple-grid.css'
 
@@ -69,6 +68,7 @@ class Manual extends Component {
   }
 }
 
-export default connect(state => ({ breakpoint: state.breakpoint }), null)(
-  Manual
-)
+export default connect(
+  state => ({ breakpoint: state.breakpoint }),
+  null
+)(Manual)

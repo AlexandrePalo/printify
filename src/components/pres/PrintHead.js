@@ -15,7 +15,6 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import './styles.css'
-import { setClass } from '../../utils/responsive'
 
 import { fp3 } from '../../utils/numbers'
 
@@ -452,7 +451,7 @@ class PrintHead extends Component {
             this.props.goToHome('z')
           }}
         >
-          <span className={fetchingPosition && 'blurred'}>All home</span>
+          <span className={fetchingPosition ? 'blurred' : ''}>All home</span>
           {fetchingPosition && (
             <div className="overlay loading">
               <CircularProgress size={14} />
@@ -476,7 +475,7 @@ class PrintHead extends Component {
             this.props.disableStepper('z')
           }}
         >
-          <span className={fetchingPower && 'blurred'}>
+          <span className={fetchingPower ? 'blurred' : ''}>
             Disable all steppers
           </span>
           {fetchingPower && (
@@ -502,7 +501,7 @@ class PrintHead extends Component {
             this.props.enableStepper('z')
           }}
         >
-          <span className={fetchingPower && 'blurred'}>
+          <span className={fetchingPower ? 'blurred' : ''}>
             Enable all steppers
           </span>
           {fetchingPower && (
@@ -521,17 +520,7 @@ class PrintHead extends Component {
 
   render() {
     return (
-      <Card
-        style={styles.card}
-        className={setClass(
-          {
-            desktopMd: 'printhead-lg',
-            tabletMd: 'printhead-md',
-            mobileMd: 'printhead-sm'
-          },
-          this.props.breakpoint
-        )}
-      >
+      <Card style={styles.card}>
         <CardContent style={styles.cardContent}>
           <Typography variant="headline">Printer head</Typography>
           <div style={styles.content}>{this.renderContent()}</div>

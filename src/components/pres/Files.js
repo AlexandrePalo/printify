@@ -15,7 +15,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import moment from 'moment'
 import { shortEnHumanizer } from '../../utils/durations'
 import './styles.css'
-import { setClass } from '../../utils/responsive'
 
 const styles = {
   card: {
@@ -103,8 +102,16 @@ class Files extends Component {
   renderActions() {
     return (
       <Fragment>
-        <Button size="small" onClick={() => console.log('add file')}>
-          Add file
+        <Button size="small" label="Add file">
+          <label htmlFor="add_file">Add file</label>
+          <input
+            id="add_file"
+            type="file"
+            style={{ display: 'none' }}
+            onChange={e => {
+              console.log(e.target.files)
+            }}
+          />
         </Button>
         <Button
           size="small"
@@ -124,11 +131,11 @@ class Files extends Component {
             <CircularProgress size={32} thickness={4} />
           </div>
         )}
-        <CardContent className={this.props.fetching && 'blurred'}>
+        <CardContent className={this.props.fetching ? 'blurred' : ''}>
           <Typography variant="headline">Files</Typography>
           <div style={styles.content}>{this.renderContent()}</div>
         </CardContent>
-        <CardActions className={this.props.fetching && 'blurred'}>
+        <CardActions className={this.props.fetching ? 'blurred' : ''}>
           {this.renderActions()}
         </CardActions>
       </Card>
