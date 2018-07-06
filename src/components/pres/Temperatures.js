@@ -218,19 +218,27 @@ class Temperatures extends Component {
       (this.props.bed.target || this.props.extruder.target) &&
       !this.props.printing
     ) {
+      const fetchingTarget =
+        this.props['bed'].fetchingTarget ||
+        this.props['extruder'].fetchingTarget
       return (
         <Button
           size="small"
           variant="contained"
           color="secondary"
-          onClick={() =>
-            this.setState({
-              bed: { ...this.state.bed, target: null },
-              extruder: { ...this.state.extruder, target: null }
-            })
-          }
+          onClick={() => {
+            this.props.setTemperatureTarget('bed', null)
+            this.props.setTemperatureTarget('extruder', null)
+          }}
+          disabled={fetchingTarget}
+          style={{ position: 'relative' }}
         >
-          Stop
+          <span className={fetchingTarget && 'blurred'}>Stop</span>
+          {fetchingTarget && (
+            <div className="overlay loading">
+              <CircularProgress size={14} />
+            </div>
+          )}
         </Button>
       )
     }

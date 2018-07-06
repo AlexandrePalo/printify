@@ -428,6 +428,15 @@ class PrintHead extends Component {
   }
 
   renderActions() {
+    const fetchingPosition =
+      this.props['x'].fetchingPosition ||
+      this.props['y'].fetchingPosition ||
+      this.props['z'].fetchingPosition
+    const fetchingPower =
+      this.props['x'].fetchingPower ||
+      this.props['y'].fetchingPower ||
+      this.props['z'].fetchingPower
+
     let actions = []
     if (
       this.props['x'].current !== 0.0 ||
@@ -443,7 +452,12 @@ class PrintHead extends Component {
             this.props.goToHome('z')
           }}
         >
-          All home
+          <span className={fetchingPosition && 'blurred'}>All home</span>
+          {fetchingPosition && (
+            <div className="overlay loading">
+              <CircularProgress size={14} />
+            </div>
+          )}
         </Button>
       )
     }
@@ -462,7 +476,14 @@ class PrintHead extends Component {
             this.props.disableStepper('z')
           }}
         >
-          Disable all steppers
+          <span className={fetchingPower && 'blurred'}>
+            Disable all steppers
+          </span>
+          {fetchingPower && (
+            <div className="overlay loading">
+              <CircularProgress size={14} />
+            </div>
+          )}
         </Button>
       )
     }
@@ -481,7 +502,14 @@ class PrintHead extends Component {
             this.props.enableStepper('z')
           }}
         >
-          Enable all steppers
+          <span className={fetchingPower && 'blurred'}>
+            Enable all steppers
+          </span>
+          {fetchingPower && (
+            <div className="overlay loading">
+              <CircularProgress size={14} />
+            </div>
+          )}
         </Button>
       )
     }
