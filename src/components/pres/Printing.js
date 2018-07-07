@@ -24,7 +24,7 @@ class Printing extends Component {
   renderControlButtons() {
     // No file
     if (!this.props.file) {
-      return null
+      return <div style={{ marginTop: 8 }} />
     }
     // Printing
     if (this.props.begin && !this.props.paused && !this.props.end) {

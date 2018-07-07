@@ -23,7 +23,7 @@ const printReducer = (state = initial, action) => {
         completed: []
       }
     case 'DELETE_FILE':
-      if (!action.payload.fetching) {
+      if (!action.payload.fetching && state.file) {
         if (state.file.id === action.payload.id) {
           return { ...state, file: null }
         }
