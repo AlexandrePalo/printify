@@ -46,7 +46,9 @@ class Files extends Component {
             <TableCell padding="none">Date</TableCell>
             <TableCell padding="none">Name</TableCell>
             <TableCell padding="none">Duration</TableCell>
-            <TableCell padding="none">Actions</TableCell>
+            <TableCell padding="none" numeric>
+              Actions
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,9 +68,9 @@ class Files extends Component {
                   round: true
                 })}
               </TableCell>
-              <TableCell padding="none" component="th" scope="row">
+              <TableCell padding="none" component="th" scope="row" numeric>
                 {this.props.byHash[id].loading ? (
-                  <CircularProgress size={24} />
+                  <CircularProgress size={14} />
                 ) : (
                   <Fragment>
                     <IconButton
