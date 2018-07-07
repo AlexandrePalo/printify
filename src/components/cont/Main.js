@@ -13,6 +13,7 @@ import Login from '../cont/Login'
 import { reLogin } from '../../redux/actions/login'
 import { amendError } from '../../redux/actions/errors'
 import background from '../../img/craft_monochrome_old.jpg'
+import './styles.css'
 
 const mapStateToProps = state => ({
   printing: state.print.begin,
@@ -111,7 +112,8 @@ class Main extends Component {
           horizontal: 'left'
         }}
         open={this.props.errors.error}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
+        onClose={(event, reason) => this.props.amendError(event, reason)}
       >
         <SnackbarContent
           style={{ backgroundColor: '#d32f2f', color: 'white' }}
@@ -123,8 +125,27 @@ class Main extends Component {
               aria-label="Close"
               color="inherit"
               onClick={(event, reason) => this.props.amendError(event, reason)}
+              style={{ position: 'relative' }}
             >
-              <Icon>clear</Icon>
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0
+                }}
+              >
+                <div className="spinner">
+                  <span>
+                    <em />
+                  </span>
+                  <span>
+                    <em />
+                  </span>
+                </div>
+              </div>
+              <Icon style={{ zIndex: 10 }}>clear</Icon>
             </IconButton>
           ]}
         />
