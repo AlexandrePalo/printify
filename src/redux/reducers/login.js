@@ -2,7 +2,6 @@ const initial = {
   user: null,
   logged: false,
   logging: false,
-  message: '',
   username: '',
   password: '',
   session: !!sessionStorage.jwt,
@@ -18,11 +17,12 @@ const login = (state = initial, action) => {
       return { ...state, password: action.payload.value }
 
     case 'LOGIN':
-      if (action.payload.fetching) {
-        return { ...state, logging: true, message: '' }
+      if (action.payload.error) {
+        return { ...state, logging: false }
       }
-      if (!action.payload.user) {
-        return { ...state, logging: false, message: 'Bad credentials' }
+
+      if (action.payload.fetching) {
+        return { ...state, logging: true }
       }
 
       sessionStorage.setItem('jwt', action.payload.token)

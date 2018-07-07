@@ -10,26 +10,36 @@ const login = (username, password) => {
         token
       }
     }`
-    request(endpoint, query, { username, password }).then(data => {
-      if (!data.login.token) {
+    request(endpoint, query, { username, password })
+      .then(data => {
+        if (!data.login.token) {
+          dispatch({
+            type: 'LOGIN',
+            payload: {
+              error: true,
+              message: 'Bad credentials'
+            }
+          })
+        } else {
+          const user = jwt.decode(data.login.token)
+          dispatch({
+            type: 'LOGIN',
+            payload: {
+              user,
+              token: data.login.token
+            }
+          })
+        }
+      })
+      .catch(err => {
         dispatch({
           type: 'LOGIN',
           payload: {
-            user: null,
-            token: null
+            error: true,
+            message: 'Error contacting server'
           }
         })
-      } else {
-        const user = jwt.decode(data.login.token)
-        dispatch({
-          type: 'LOGIN',
-          payload: {
-            user,
-            token: data.login.token
-          }
-        })
-      }
-    })
+      })
   }
 }
 
@@ -44,26 +54,35 @@ const reLogin = token => {
       }
     }`
 
-    request(endpoint, query, { token }).then(data => {
-      if (!data.reLogin.id) {
+    request(endpoint, query, { token })
+      .then(data => {
+        if (!data.reLogin.id) {
+          dispatch({
+            type: 'RE_LOGIN',
+            payload: {
+              user: null,
+              token: null
+            }
+          })
+        } else {
+          dispatch({
+            type: 'RE_LOGIN',
+            payload: {
+              user: data.reLogin,
+              token
+            }
+          })
+        }
+      })
+      .catch(err => {
         dispatch({
           type: 'RE_LOGIN',
           payload: {
-            user: null,
-            token: null
+            error: true,
+            message: 'Error contacting server'
           }
         })
-      } else {
-        console.log(data)
-        dispatch({
-          type: 'RE_LOGIN',
-          payload: {
-            user: data.reLogin,
-            token
-          }
-        })
-      }
-    })
+      })
   }
 }
 

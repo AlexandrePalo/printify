@@ -3,7 +3,6 @@ import path from 'path'
 const initial = {
   fetching: false,
   fetchingAdd: false,
-  error: false,
   dir: '/Users/alexandrepalo/software/printify-api/public/3D',
   byId: [],
   byHash: {}
@@ -23,11 +22,11 @@ const filesReducer = (state = initial, action) => {
       if (action.payload.fetching) {
         return { ...state, fetching: true }
       }
+      // Error
       if (action.payload.error) {
         return {
           ...state,
-          fetching: false,
-          error: true
+          fetching: false
         }
       }
       // Add files to state
@@ -62,7 +61,7 @@ const filesReducer = (state = initial, action) => {
           }
         }
       }
-      // Error
+      // Error, keep file
       if (action.payload.error) {
         return {
           ...state,
@@ -82,6 +81,14 @@ const filesReducer = (state = initial, action) => {
       return { ...state, byId: prunedId, byHash: prunedHash }
 
     case 'ADD_FILE':
+      // Error
+      if (action.payload.error) {
+        return {
+          ...state,
+          fetchingAdd: false
+        }
+      }
+
       // Fetching
       if (action.payload.fetching) {
         return {

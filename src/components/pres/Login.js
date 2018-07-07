@@ -89,12 +89,12 @@ class Login extends Component {
         )}
         <CardContent
           style={styles.cardContent}
-          className={this.props.logging && 'blurred'}
+          className={this.props.logging ? 'blurred' : ''}
         >
           <Typography variant="headline">Printify</Typography>
           <div style={styles.content}>{this.renderContent()}</div>
         </CardContent>
-        <CardActions className={this.props.logging && 'blurred'}>
+        <CardActions className={this.props.logging ? 'blurred' : ''}>
           {this.renderActions()}
         </CardActions>
       </Card>

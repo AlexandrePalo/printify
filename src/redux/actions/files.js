@@ -97,7 +97,10 @@ const addFile = file => {
         // Error
         dispatch({
           type: 'ADD_FILE',
-          payload: { error: "Error lors de l'ajout du fichier" }
+          payload: {
+            error: true,
+            message: 'Error adding file'
+          }
         })
       })
   }
