@@ -2,10 +2,18 @@ import path from 'path'
 
 const initial = {
   fetching: false,
+  fetchingAdd: false,
   error: false,
   dir: '/Users/alexandrepalo/software/printify-api/public/3D',
   byId: [],
   byHash: {}
+}
+
+const nextId = byId => {
+  if (byId.length > 0) {
+    return Math.max(byId) + 1
+  }
+  return 1
 }
 
 const filesReducer = (state = initial, action) => {
@@ -26,7 +34,12 @@ const filesReducer = (state = initial, action) => {
       let nbyId = action.payload.files.map((f, i) => i)
       let nbyHash = {}
       action.payload.files.forEach((f, i) => {
-        nbyHash[i] = { ...f, name: path.basename(f.path), loading: false }
+        nbyHash[i] = {
+          ...f,
+          id: i,
+          name: path.basename(f.path),
+          loading: false
+        }
       })
       return {
         ...state,
@@ -67,6 +80,32 @@ const filesReducer = (state = initial, action) => {
       const prunedHash = { ...state.byHash }
       delete prunedHash[action.payload.id]
       return { ...state, byId: prunedId, byHash: prunedHash }
+
+    case 'ADD_FILE':
+      // Fetching
+      if (action.payload.fetching) {
+        return {
+          ...state,
+          fetchingAdd: true
+        }
+      }
+
+      // Add new file
+      const nId = nextId(state.byId)
+      return {
+        ...state,
+        fetchingAdd: false,
+        byHash: {
+          ...state.byHash,
+          [nId]: {
+            ...action.payload.file,
+            id: nId,
+            name: path.basename(action.payload.file.path),
+            loading: false
+          }
+        },
+        byId: [...state.byId, nId]
+      }
 
     default:
       return state

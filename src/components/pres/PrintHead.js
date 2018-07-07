@@ -450,6 +450,7 @@ class PrintHead extends Component {
             this.props.goToHome('y')
             this.props.goToHome('z')
           }}
+          disabled={fetchingPosition}
         >
           <span className={fetchingPosition ? 'blurred' : ''}>All home</span>
           {fetchingPosition && (
@@ -474,6 +475,7 @@ class PrintHead extends Component {
             this.props.disableStepper('y')
             this.props.disableStepper('z')
           }}
+          disabled={fetchingPower}
         >
           <span className={fetchingPower ? 'blurred' : ''}>
             Disable all steppers
@@ -500,6 +502,7 @@ class PrintHead extends Component {
             this.props.enableStepper('y')
             this.props.enableStepper('z')
           }}
+          disabled={fetchingPower}
         >
           <span className={fetchingPower ? 'blurred' : ''}>
             Enable all steppers

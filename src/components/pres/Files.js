@@ -35,7 +35,7 @@ const styles = {
 
 class Files extends Component {
   componentWillMount() {
-    this.props.getFiles(this.props.dir)
+    this.props.byId.length === 0 && this.props.getFiles()
   }
 
   renderContent() {
@@ -102,21 +102,33 @@ class Files extends Component {
   renderActions() {
     return (
       <Fragment>
-        <Button size="small" label="Add file">
-          <label htmlFor="add_file">Add file</label>
+        <Button
+          htmlFor="add_file"
+          size="small"
+          label="Add file"
+          disabled={this.props.fetchingAdd}
+        >
+          <label
+            className={this.props.fetchingAdd ? 'blurred' : ''}
+            htmlFor="add_file"
+          >
+            Add file
+          </label>
           <input
             id="add_file"
             type="file"
             style={{ display: 'none' }}
             onChange={e => {
-              console.log(e.target.files)
+              this.props.addFile(e.target.files[0])
             }}
           />
+          {this.props.fetchingAdd && (
+            <div className="overlay loading">
+              <CircularProgress size={14} />
+            </div>
+          )}
         </Button>
-        <Button
-          size="small"
-          onClick={() => this.props.getFiles(this.props.dir)}
-        >
+        <Button size="small" onClick={() => this.props.getFiles()}>
           Refresh
         </Button>
       </Fragment>

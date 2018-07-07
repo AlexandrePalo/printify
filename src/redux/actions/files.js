@@ -1,11 +1,12 @@
 import { GraphQLClient } from 'graphql-request'
+import axios from 'axios'
 const endpoint = 'http://localhost:4000'
 
-const getFiles = dir => {
+const getFiles = () => {
   return dispatch => {
     dispatch({ type: 'GET_FILES', payload: { fetching: true } })
-    const query = `mutation($dir: String) {
-      readDir(dir: $dir) {
+    const query = `mutation {
+      readDir {
         path duration date
       }
     }`
@@ -13,7 +14,7 @@ const getFiles = dir => {
       headers: { authorization: 'Bearer ' + sessionStorage.jwt }
     })
     gqlc
-      .request(query, { dir })
+      .request(query)
       .then(data => {
         dispatch({ type: 'GET_FILES', payload: { files: data.readDir } })
       })
@@ -52,4 +53,54 @@ const deleteFile = (id, path) => {
   }
 }
 
-export { getFiles, deleteFile }
+const addFile = file => {
+  return dispatch => {
+    // Fetching
+    dispatch({
+      type: 'ADD_FILE',
+      payload: {
+        fetching: true
+      }
+    })
+
+    // Send file
+    const query = {
+      query: `mutation ($file: Upload!) {
+        addFile (file: $file) {
+          path
+          duration
+          date
+        }
+      }`,
+      variables: {
+        file: null
+      }
+    }
+    let map = {
+      '0': ['variables.file']
+    }
+    let fd = new FormData()
+    fd.append('operations', JSON.stringify(query))
+    fd.append('map', JSON.stringify(map))
+    fd.append(0, file)
+
+    axios
+      .post(endpoint, fd)
+      .then(response => {
+        // Add uploaded file to state
+        dispatch({
+          type: 'ADD_FILE',
+          payload: { file: response.data.data.addFile }
+        })
+      })
+      .catch(e => {
+        // Error
+        dispatch({
+          type: 'ADD_FILE',
+          payload: { error: "Error lors de l'ajout du fichier" }
+        })
+      })
+  }
+}
+
+export { getFiles, deleteFile, addFile }

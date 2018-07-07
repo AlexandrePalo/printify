@@ -133,24 +133,28 @@ class Printing extends Component {
     return (
       <div>
         {this.renderControlButtons()}
-        <StepperPrinting />
-        <ProgressPrinting />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            alignSelf: 'stretch'
-          }}
-        >
-          <Typography variant="body1" color="textSecondary">
-            Printing :
-          </Typography>
-          <Typography variant="body1" color="textSecondary">
-            {this.props.file.name}
-          </Typography>
-        </div>
+        {this.props.file && (
+          <Fragment>
+            <StepperPrinting />
+            <ProgressPrinting />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                alignSelf: 'stretch'
+              }}
+            >
+              <Typography variant="body1" color="textSecondary">
+                Printing :
+              </Typography>
+              <Typography variant="body1" color="textSecondary">
+                {this.props.file.name}
+              </Typography>
+            </div>
+          </Fragment>
+        )}
         <div
           style={{
             display: 'flex',

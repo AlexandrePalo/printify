@@ -1,12 +1,7 @@
 import moment from 'moment'
 
 const initial = {
-  file: {
-    id: 1,
-    name: 'Cat low poly',
-    duration: 100,
-    date: moment('2018-01-19').toISOString()
-  },
+  file: null,
   begin: null,
   current: 0,
   paused: false,
@@ -27,6 +22,14 @@ const printReducer = (state = initial, action) => {
         feedRate: state.feedRate,
         completed: []
       }
+    case 'DELETE_FILE':
+      if (!action.payload.fetching) {
+        if (state.file.id === action.payload.id) {
+          return { ...state, file: null }
+        }
+        return state
+      }
+      return state
     case 'START_PRINTING':
       return {
         ...state,
