@@ -26,6 +26,7 @@ class ResponsiveWrapper extends Component {
       }
       query.addListener(breakpointChange.bind(this))
       this.mediaQueryState.push(query)
+      return true
     })
     this.dispatchActiveQuery()
   }

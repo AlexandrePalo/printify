@@ -43,9 +43,7 @@ class Files extends Component {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell padding="none" style={{ padding: 30 }}>
-              Date
-            </TableCell>
+            <TableCell padding="none">Date</TableCell>
             <TableCell padding="none">Name</TableCell>
             <TableCell padding="none">Duration</TableCell>
             <TableCell padding="none">Actions</TableCell>

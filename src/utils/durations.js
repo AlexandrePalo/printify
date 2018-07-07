@@ -33,22 +33,3 @@ const shortEnHumanizer = humanizeDuration.humanizer({
 })
 
 export { shortEnHumanizer }
-
-Promise.prototype.delay = function(duration) {
-  return this.then(
-    function(value) {
-      return new Promise(function(resolve) {
-        setTimeout(function() {
-          resolve(value)
-        }, duration)
-      })
-    },
-    function(reason) {
-      return new Promise(function(resolve, reject) {
-        setTimeout(function() {
-          reject(reason)
-        }, duration)
-      })
-    }
-  )
-}
