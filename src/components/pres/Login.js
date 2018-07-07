@@ -18,25 +18,9 @@ const styles = {
 }
 
 class Login extends Component {
-  renderMessage() {
-    if (this.props.message) {
-      return (
-        <div
-          style={{
-            marginTop: 16,
-            marginBottom: -16
-          }}
-        >
-          <Typography variant="subheading">{this.props.message}</Typography>
-        </div>
-      )
-    }
-  }
-
   renderContent() {
     return (
       <form noValidate autoComplete="off">
-        {this.renderMessage()}
         <div
           style={{
             display: 'flex',

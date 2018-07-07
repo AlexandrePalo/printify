@@ -18,7 +18,7 @@
 
 .spinner span em {
   background: white;
-  -webkit-animation-duration: 10s; /* 10s --> 5s circle */
+  -webkit-animation-duration: 10.1s; /* 10s --> 5s circle */
   z-index: -1;
 }
 
