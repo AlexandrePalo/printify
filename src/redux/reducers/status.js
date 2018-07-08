@@ -3,7 +3,7 @@ const initial = {
   fetchingPorts: false,
   port: 1,
   baudRate: 124000,
-  connected: true,
+  connected: false,
   connecting: false
 }
 
@@ -19,19 +19,27 @@ const statusReducer = (state = initial, action) => {
       if (action.payload.fetching) {
         return { ...state, connecting: true }
       }
-      console.log(action.payload)
       return { ...state, connecting: false }
 
     case 'DISCONNECT_FROM_PRINTER':
       return { ...state, connected: false }
 
     case 'GET_AVAILABLE_PORTS':
+      // Error
+      if (action.payload.error) {
+        return {
+          ...state,
+          fetchingPorts: false
+        }
+      }
+      // Fetching
       if (action.payload.fetching) {
         return {
           ...state,
           fetchingPorts: true
         }
       }
+      // OK
       return {
         ...state,
         fetchingPorts: false,

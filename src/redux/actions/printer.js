@@ -4,19 +4,26 @@ const endpoint = 'http://localhost:4000'
 const getAvailablePorts = () => {
   return dispatch => {
     dispatch({ type: 'GET_AVAILABLE_PORTS', payload: { fetching: true } })
-    const query = `query {serieports {name}}`
+    const query = `query {
+      serieports {
+        name
+      }
+    }`
+    // Not needed atm
     const gqlc = new GraphQLClient(endpoint, {
       headers: { authorization: 'Bearer ' + sessionStorage.jwt }
     })
     gqlc
-      .request(endpoint, query)
+      .request(query)
       .then(data => {
+        console.log(data)
         dispatch({
           type: 'GET_AVAILABLE_PORTS',
           payload: { data }
         })
       })
       .catch(err => {
+        console.log(err)
         dispatch({
           type: 'GET_AVAILABLE_PORTS',
           payload: { error: true, message: 'Error during fetching data' }
