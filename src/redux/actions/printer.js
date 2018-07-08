@@ -16,14 +16,12 @@ const getAvailablePorts = () => {
     gqlc
       .request(query)
       .then(data => {
-        console.log(data)
         dispatch({
           type: 'GET_AVAILABLE_PORTS',
           payload: { data }
         })
       })
       .catch(err => {
-        console.log(err)
         dispatch({
           type: 'GET_AVAILABLE_PORTS',
           payload: { error: true, message: 'Error during fetching data' }
@@ -36,18 +34,26 @@ const connectToPrinter = (port, baudRate) => {
   return dispatch => {
     dispatch({ type: 'CONNECT_TO_PRINTER', payload: { fetching: true } })
     const query = `mutation($port: String, $baudRate: Int) {
-      connectToPrinter(port: $port, baudRate: $baudRate) {status message}
+      connectToPrinter(port: $port, baudRate: $baudRate) {connected port baudRate}
     }`
     const gqlc = new GraphQLClient(endpoint, {
       headers: { authorization: 'Bearer ' + sessionStorage.jwt }
     })
     gqlc
-      .request(endpoint, query, { port, baudRate })
+      .request(query, { port, baudRate })
       .then(data => {
-        dispatch({
-          type: 'CONNECT_TO_PRINTER',
-          payload: { data }
-        })
+        if (!data.connectToPrinter.connected) {
+          dispatch({
+            type: 'CONNECT_TO_PRINTER',
+            error: true,
+            message: 'Error during connecting to printer'
+          })
+        } else {
+          dispatch({
+            type: 'CONNECT_TO_PRINTER',
+            payload: { ...data.connectToPrinter }
+          })
+        }
       })
       .catch(err => {
         dispatch({

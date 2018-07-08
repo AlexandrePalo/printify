@@ -17,7 +17,7 @@ import './styles.css'
 
 const mapStateToProps = state => ({
   printing: state.print.begin,
-  connected: state.status.connected,
+  connected: state.status.printer.connected,
   logged: state.login.logged,
   session: state.login.session,
   errors: state.errors
@@ -76,6 +76,7 @@ class Main extends Component {
 
     // Session and logged
     if (this.props.session && this.props.logged) {
+      // Not connected to printer
       if (!this.props.connected) {
         return (
           <Fragment>
@@ -94,6 +95,7 @@ class Main extends Component {
           </Fragment>
         )
       } else {
+        // Connected to printer
         if (this.props.printing) {
           return <Print />
         } else {

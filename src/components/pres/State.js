@@ -98,9 +98,9 @@ class State extends Component {
               id: 'baudRate'
             }}
           >
-            <MenuItem value={124000}>124000</MenuItem>
-            <MenuItem value={172000}>172000</MenuItem>
-            <MenuItem value={200000}>200000</MenuItem>
+            <MenuItem value={9600}>9600</MenuItem>
+            <MenuItem value={19200}>19200</MenuItem>
+            <MenuItem value={38400}>38400</MenuItem>
           </Select>
         </FormControl>
       </div>

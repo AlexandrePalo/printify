@@ -3,4 +3,4 @@ import reduxThunk from 'redux-thunk'
 import logger from 'redux-logger'
 import mainReducer from './reducers'
 
-export default createStore(mainReducer, applyMiddleware(reduxThunk))
+export default createStore(mainReducer, applyMiddleware(reduxThunk, logger))
